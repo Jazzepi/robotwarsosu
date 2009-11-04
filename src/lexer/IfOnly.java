@@ -1,0 +1,13 @@
+package lexer;
+
+import java.util.ArrayList;
+
+public class IfOnly implements Statement {
+
+	@Override
+	public ArrayList<String> evaluate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
