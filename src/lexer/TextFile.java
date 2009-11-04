@@ -143,7 +143,7 @@ public class TextFile {
 
 		String returnTokText = null;
 		TokenType returnTokType = null;
-		StringTokenizer st = new StringTokenizer(rVal," \t;(){}=!<>+-/*%",true);
+		StringTokenizer st = new StringTokenizer(rVal," \t;(){}=!<>+-,/*%",true);
 		String temp = st.nextToken();
 		String lookAhead = null;
 
@@ -180,17 +180,17 @@ public class TextFile {
 		}
 		else if(TokenType.matchesToken(TokenType.SYMBOL, temp))
 		{
-			if(temp.matches("=") && lookAhead == null) //This is the last token, so it must just be the = symbol
+			if(temp.equals("=") && lookAhead == null) //This is the last token, so it must just be the = symbol
 			{
 				returnTokText = temp;
 				returnTokType = TokenType.SYMBOL;
 			}
-			else if(temp.matches("=") && lookAhead != null) //This is not the last token, so something must come after it
+			else if(temp.equals("=") && lookAhead != null) //This is not the last token, so something must come after it
 			{
-				if(lookAhead.matches("="))//Check to see if you actually found == instead of just =
+				if(lookAhead.equals("="))//Check to see if you actually found == instead of just =
 				{
 					returnTokText = temp.concat(lookAhead);
-					returnTokType = TokenType.SYMBOL;
+					returnTokType = TokenType.CONDITION;
 				}
 				else //Wasn't ==, so it must just be the symbol operator for assignment
 				{
@@ -205,11 +205,11 @@ public class TextFile {
 			}
 
 		}
-		else if(temp.matches("!") ||temp.matches("<") ||temp.matches(">")) //Must be a condition
+		else if(temp.equals("!") ||temp.equals("<") ||temp.equals(">")) //Must be a condition
 		{
-			if(temp.matches("!"))//Must have = after it, or it's an error
+			if(temp.equals("!"))//Must have = after it, or it's an error
 			{
-				if(lookAhead.matches("="))
+				if(lookAhead != null && lookAhead.equals("="))
 				{
 					returnTokText = temp + lookAhead;
 					returnTokType = TokenType.CONDITION;
@@ -221,9 +221,9 @@ public class TextFile {
 				}
 			}
 
-			if(temp.matches("<") || temp.matches(">"))
+			if(temp.equals("<") || temp.equals(">"))
 			{
-				if(lookAhead == null || !lookAhead.matches("="))
+				if(lookAhead == null || !lookAhead.equals("="))
 				{
 					returnTokText = temp;
 					returnTokType = TokenType.CONDITION;

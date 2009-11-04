@@ -6,14 +6,14 @@ import java.util.TreeSet;
 public class Token {
 
 	private static String[] WS1 = {"\t"," "};
-	private static String[] IDENTIFIER1 = {"0","1","2","3","4","5","6","7","8","9","10",
+	private static String[] IDENTIFIER1 = {"0","1","2","3","4","5","6","7","8","9",
 		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 		"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","_"};
 	private static String[] DIGITS1 = {"0","1","2","3","4","5","6","7","8","9"};
 	private static String[] OPERATOR1 = {"+","-","/","*","%"};
-	private static String[] SYMBOL1 = {";",")","(","}","{","="};
+	private static String[] SYMBOL1 = {";",")","(","}","{","=",","};
 	private static String[] CONDITION1 = {"!=", "==", "<", ">", "<=", ">="};
-	private static String[] KEYWORD1 = {"IF", "IFELSE", "VAR", "SUBROUTINE", "RETURN", "MAIN", "WHILE"};
+	private static String[] KEYWORD1 = {"IF", "IFELSE","ELSE", "VAR", "SUBROUTINE", "RETURN", "MAIN", "WHILE"};
 	private static String[] GAMEFUNCTION1 = {"isEnemyInRange","isHealth","directionOfClosestEnemy"};
 	private static String[] GAMEORDER1 = {"move","turn","skip","selfDestruct","attackWithWeapon","useItem"};
 
@@ -61,7 +61,7 @@ public class Token {
 			{
 				for(String element : type.collection)
 				{
-					if(element.startsWith(text))
+					if(element.equals(text))
 					{
 						flag = true;
 					}
