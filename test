@@ -1,0 +1,10 @@
+IF IFELSE ELSE VAR MAIN RETURN SUBROUTINE WHILE #Keywords
++-/*% #operators
+{}()=;, #symbols
+0 1 2 3 4 5 6 7 8 9 10 34943 39924 -324933 00-2394 #digits
+!= == <= >= < > #conditions
+ 	#white space
+isEnemyInRange isHealth directionOfClosestEnemy #game functions
+move turn skip selfDestruct attackWithWeapon useItem #game orders
+AHORSE A_3402aFdko230__ A_ A A439423 AGJFID IFF IFeLse IF4 WHILE9 While WHILE_#identifiers
+_fdishfs 3asdjkj 3943ajsdjajds \ [ ] ~ `  . ? ! #errors

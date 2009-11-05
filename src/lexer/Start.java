@@ -25,7 +25,7 @@ public class Start {
 		
 		while(!sFile.isEndOfFile())
 		{
-			Token temp = sFile.getToken();
+			Token temp = sFile.getNonWSToken();
 			System.out.print(temp.getText() +" IS A:");
 			System.out.println(temp.getType());
 		}

@@ -134,8 +134,25 @@ public class TextFile {
 		return character; 
 	}
 
+	public Token getNonWSToken()
+	{
+		Token flag = getToken();
+		while (flag.getType() == TokenType.WS && flag != null)
+		{
+			flag = getToken();
+		}
+		return flag;
+	}
+	
 	public Token getToken()
 	{
+
+		if(isEndOfFile())
+		{
+			System.out.println("Ran out of tokens.");
+			return null;
+		}
+		
 		String rVal = body.get(rowPointer); //Get the string out of the array located at the rowPointer
 		rVal = rVal.substring(posPointer); //Get the portion of the string to the right of the posPointer
 		for(int i = rowPointer+1; i < body.size(); i++)
@@ -257,9 +274,8 @@ public class TextFile {
 		{
 			posPointer -= body.get(rowPointer).length();
 			rowPointer++;	
-			}
-//		System.out.println("ROW:"+rowPointer);
-//		System.out.println("POS:"+posPointer);
+		}
+
 		return new Token(returnTokType, returnTokText);
 
 	}
