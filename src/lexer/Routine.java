@@ -7,25 +7,37 @@ public class Routine {
 	MainProgram main;
 	TreeSet<RoutineProgram> subroutines = new TreeSet<RoutineProgram>();
 	
-	Routine(TextFile body)
+	public Routine(TextFile body)
 	{
-		Token current = body.getNonWSToken();
-		Token lookAhead = body.getNonWSToken();
+		Token current = body.getNonWSToken(false);
 	
-		if(current != null && lookAhead != null) 
+		if(current != null) 
 		{
 			if(current.getText().equals("MAIN"))
 			{
-				main = new MainProgram(current, lookAhead, body);
+				current = body.getNonWSToken(false);
+				if(current != null)
+				{
+					if(current.getText().equals("{"))
+					{
+						main = new MainProgram(body);	
+					}
+					else
+					{
+						System.out.println("ERROR: { symbol expected before body of MAINPROGRAM while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
+					}					
+				}
+
+				
 			}
-			else if(current.getText().equals("ROUTINE"))
+			else if(current.getText().equals("SUBROUTINE"))
 			{
-				RoutineProgram temp = new RoutineProgram(current, lookAhead, body);
+				RoutineProgram temp = new RoutineProgram(body);
 				subroutines.add(temp);
 			}
 			else
 			{
-				System.out.println("ERROR: MAIN or SUBROUTINE keyword expected while parsing line "+ body.getLine());
+				System.out.println("ERROR: MAIN or SUBROUTINE keyword expected while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");						
 			}
 		}
 	}

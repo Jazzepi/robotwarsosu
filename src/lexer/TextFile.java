@@ -134,17 +134,41 @@ public class TextFile {
 		return character; 
 	}
 
-	public Token getNonWSToken()
+	public Token getNonWSToken(boolean lookAhead)
 	{
-		Token flag = getToken();
-		while (flag.getType() == TokenType.WS && flag != null)
+		Token flag = null;
+
+		
+		if(lookAhead) //If I want to leave the tokens in there, then I want to pull out all the WS till I find a real token 
 		{
-			flag = getToken();
+			boolean gotNonWSToken = false;
+			
+			while(!gotNonWSToken)
+			{
+				flag = getToken(true);
+				if(flag.getType() == TokenType.WS)
+				{//If this one is safe to pull out, get rid of it
+					flag = getToken(false);
+				}
+				else
+				{//Otherwise you've already got a token that you want, return it
+					gotNonWSToken = true;
+				}
+			}
 		}
+		else 
+		{
+			flag = getToken(false);
+			while (flag != null && flag.getType() == TokenType.WS)
+			{
+				flag = getToken(false);
+			}			
+		}
+
 		return flag;
 	}
 	
-	public Token getToken()
+	public Token getToken(boolean isLookAhead)
 	{
 
 		if(isEndOfFile())
@@ -268,13 +292,17 @@ public class TextFile {
 			returnTokType = TokenType.ERROR;
 		}
 
-		posPointer += returnTokText.length();
+		if(!isLookAhead)
+		{//If it's not look ahead, then we want to increment the pointer
+			posPointer += returnTokText.length();
 
-		while(body.get(rowPointer).length() < posPointer) //While the pos pointer is greater than the size of the current row, take out the pos pointer 
-		{
-			posPointer -= body.get(rowPointer).length();
-			rowPointer++;	
+			while(body.get(rowPointer).length() < posPointer) //While the pos pointer is greater than the size of the current row, take out the pos pointer 
+			{
+				posPointer -= body.get(rowPointer).length();
+				rowPointer++;	
+			}			
 		}
+
 
 		return new Token(returnTokType, returnTokText);
 
