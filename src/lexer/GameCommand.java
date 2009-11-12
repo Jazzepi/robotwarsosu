@@ -2,25 +2,34 @@ package lexer;
 
 import java.util.ArrayList;
 
-import lexer.Token.TokenType;
-
 public class GameCommand implements Statement {
 
 	Parameters parameters;
-	String gameFunctionID;
-	
-	public GameCommand(TextFile body) {
+	String gameCommandID;
+
+	public GameCommand(TextFile body, Token gameOrderAlreadyPulledOff) {
+		
+		gameCommandID = gameOrderAlreadyPulledOff.getText();
+
 		Token current = body.getNonWSToken(false);
 		
-		if (current != null)
+		if(current != null)
 		{
-			if(current.getType() == TokenType.GAMEORDER)
+			if(!current.getText().equals("("))
 			{
-				
+				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
-			else
+		}
+		
+		parameters = new Parameters(body);
+		
+		current = body.getNonWSToken(false);
+		
+		if(current != null)
+		{
+			if(!current.getText().equals(")"))
 			{
-				
+				System.out.println("ERROR: ) symbol expected after PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 	}

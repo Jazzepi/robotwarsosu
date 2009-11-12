@@ -45,7 +45,8 @@ public class VariableAssignment implements Statement {
 		{
 			if(current.getType() == TokenType.GAMEFUNCTION)
 			{				
-				gameFunction = new GameFunction(body);
+				current = body.getNonWSToken(false);
+				gameFunction = new GameFunction(body, current);
 			}
 			else if(current.getType() == TokenType.IDENTIFIER)
 			{

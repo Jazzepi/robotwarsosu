@@ -77,7 +77,7 @@ public class Block {
 				
 				if (current.getText().equals("("))
 				{
-					GameCommand gameCommandStatementToBeAdded = new GameCommand(body);
+					GameCommand gameCommandStatementToBeAdded = new GameCommand(body, current);
 					block.add(gameCommandStatementToBeAdded);
 				}
 				else
