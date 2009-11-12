@@ -146,7 +146,7 @@ public class TextFile {
 			while(!gotNonWSToken)
 			{
 				flag = getToken(true);
-				if(flag.getType() == TokenType.WS)
+				if(flag != null && flag.getType() == TokenType.WS)
 				{//If this one is safe to pull out, get rid of it
 					flag = getToken(false);
 				}
