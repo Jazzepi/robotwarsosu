@@ -83,7 +83,6 @@ public class Block {
 				else
 				{
 					System.out.println("ERROR: ( expected after GAMEORDER on line" + body.getLine());
-					
 				}
 			}
 			else

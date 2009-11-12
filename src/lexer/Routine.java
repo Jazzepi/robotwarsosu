@@ -5,7 +5,7 @@ import java.util.TreeSet;
 public class Routine {
 	
 	MainProgram main;
-	TreeSet<RoutineProgram> subroutines = new TreeSet<RoutineProgram>();
+	TreeSet<Subroutines> subroutines = new TreeSet<Subroutines>();
 	
 	public Routine(TextFile body)
 	{
@@ -32,7 +32,7 @@ public class Routine {
 			}
 			else if(current.getText().equals("SUBROUTINE"))
 			{
-				RoutineProgram temp = new RoutineProgram(body);
+				Subroutines temp = new Subroutines(body);
 				subroutines.add(temp);
 			}
 			else

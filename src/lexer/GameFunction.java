@@ -1,8 +1,8 @@
 package lexer;
 
-public class RoutineProgram {
+public class GameFunction {
 
-	public RoutineProgram(TextFile body) {
+	public GameFunction(TextFile body) {
 		// TODO Auto-generated constructor stub
 	}
 

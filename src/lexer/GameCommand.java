@@ -2,10 +2,27 @@ package lexer;
 
 import java.util.ArrayList;
 
+import lexer.Token.TokenType;
+
 public class GameCommand implements Statement {
 
+	Parameters parameters;
+	String gameFunctionID;
+	
 	public GameCommand(TextFile body) {
-		// TODO Auto-generated constructor stub
+		Token current = body.getNonWSToken(false);
+		
+		if (current != null)
+		{
+			if(current.getType() == TokenType.GAMEORDER)
+			{
+				
+			}
+			else
+			{
+				
+			}
+		}
 	}
 
 	@Override
