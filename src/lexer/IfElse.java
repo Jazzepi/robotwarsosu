@@ -24,7 +24,7 @@ public class IfElse implements Statement {
 		rightExp.print();
 		System.out.print(") {");
 		ifBody.print();
-		System.out.print("ELSE");
+		System.out.print("} ELSE {");
 		elseBody.print();
 		System.out.print("}");
 	}
@@ -63,13 +63,20 @@ public class IfElse implements Statement {
 		
 		if(current != null)
 		{
-			if(current.getText().equals("{"))
-			{
-				ifBody = new Block(body);
-			}
-			else
-			{
+			if(!current.getText().equals("{"))
 				System.out.println("ERROR: { symbol expected before first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
+		}
+
+		ifBody = new Block(body);
+		
+		
+		current = body.getNonWSToken(false);
+		
+		if(current != null)
+		{
+			if(!current.getText().equals("}"))
+			{
+				System.out.println("ERROR: } symbol expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 		
@@ -79,15 +86,23 @@ public class IfElse implements Statement {
 		
 		if(current != null)
 		{
-			if(current.getText().equals("ELSE"))
+			if(!current.getText().equals("ELSE"))
 			{
-				elseBody = new Block(body);
-			}
-			else
-			{
-				System.out.println("ERROR: ELSE keyword expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
+				System.out.println("ERROR: ELSE keyword expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");				
 			}
 		}
+		
+		current = body.getNonWSToken(false);
+		
+		if(current != null)
+		{
+			if(!current.getText().equals("{"))
+			{
+				System.out.println("ERROR: { symbol expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");				
+			}
+		}
+		
+		elseBody = new Block(body);
 		
 		current = body.getNonWSToken(false);
 		
@@ -98,7 +113,6 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: } symbol expected after second body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
-
 	}
 
 	@Override

@@ -9,8 +9,41 @@ public class Subroutines {
 	Block subroutineBlock;
 	
 	public void print() {
-		// TODO Auto-generated method stub
+		System.out.print("SUBROUTINE ");
+		if(methodName != null)
+		{
+			System.out.print(methodName + " ");
+		}
+		else
+		{
+			System.out.print("ERROR:MissingSubroutineName ");
+		}
 		
+		System.out.print("(");
+
+		
+		if(parameters != null )
+		{
+			parameters.print();
+		}
+		else
+		{
+			System.out.print("ERROR:MissingParameters");
+		}
+		
+		System.out.print(") {");
+		
+		if(subroutineBlock != null)
+		{
+			subroutineBlock.print();
+		}
+		else
+		{
+			System.out.print("ERROR:MissingBlock");
+		}
+		
+		System.out.println("}");
+		System.out.println();
 	}
 	
 	public Subroutines(TextFile body) {

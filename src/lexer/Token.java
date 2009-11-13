@@ -13,7 +13,7 @@ public class Token {
 	private static String[] OPERATOR1 = {"+","-","/","*","%"};
 	private static String[] SYMBOL1 = {";",")","(","}","{","=",","};
 	private static String[] CONDITION1 = {"!=", "==", "<", ">", "<=", ">="};
-	private static String[] KEYWORD1 = {"IF", "IFELSE","ELSE", "VAR", "SUBROUTINE", "RETURN", "MAIN", "WHILE"};
+	private static String[] KEYWORD1 = {"IF", "IFELSE","ELSE", "VAR", "SUBROUTINE", "RETURN", "MAIN", "WHILE", "CALL"};
 	private static String[] GAMEFUNCTION1 = {"isEnemyInRange","isHealth","directionOfClosestEnemy"};
 	private static String[] GAMEORDER1 = {"move","turn","skip","selfDestruct","attackWithWeapon","useItem"};
 

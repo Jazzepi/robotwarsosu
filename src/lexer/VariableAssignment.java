@@ -38,7 +38,7 @@ public class VariableAssignment implements Statement {
 		}
 		else if(rightSidedFunctionCallID != null)
 		{
-			System.out.print(rightSidedFunctionCallID + "( ");
+			System.out.print("CALL " + rightSidedFunctionCallID + "( ");
 			if(rightSidedFunctionCallParameters != null )
 			{
 				rightSidedFunctionCallParameters.print();
@@ -88,14 +88,24 @@ public class VariableAssignment implements Statement {
 		if(current != null)
 		{
 			if(current.getType() == TokenType.GAMEFUNCTION)
-			{				
+			{
 				current = body.getNonWSToken(false);
 				gameFunction = new GameFunction(body, current);
 			}
-			else if(current.getType() == TokenType.IDENTIFIER)
+			else if(current.getText().equals("CALL")) //If this is a subroutine call
 			{
+				current = body.getNonWSToken(false); //Peel off CALL, no need to error check, we already verified it
+				
 				current = body.getNonWSToken(false); //Peel off the subroutine ID
-				rightSidedFunctionCallID = current.getText();
+				
+				if(current.getType() == TokenType.IDENTIFIER)
+				{
+					rightSidedFunctionCallID = current.getText();
+				}
+				else
+				{
+					System.out.println("ERROR: IDENTIFIER token expected to preceed ( symbol while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
+				}
 				
 				current = body.getNonWSToken(false);
 				

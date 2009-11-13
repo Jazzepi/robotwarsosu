@@ -20,7 +20,7 @@ public class Block {
 	{
 		Token current = body.getNonWSToken(true);
 		
-		while(current != null && !current.getText().equals("}") && !current.getText().equals("ELSE")) 
+		while(current != null && !current.getText().equals("}")) 
 		{
 			if(current.getText().equals("IF"))
 			{
@@ -93,7 +93,8 @@ public class Block {
 			}
 			else
 			{
-				System.out.println("ERROR: IF, IFELSE, WHILE, VAR, RETURN, or GAMEORDER command expected while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
+				System.out.println("ERROR: IF, IFELSE, WHILE, VAR, RETURN, or GAMEORDER command expected while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
+				current = body.getNonWSToken(false); //Get rid of bad token.
 			}
 			current = body.getNonWSToken(true);
 		}

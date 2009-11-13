@@ -173,7 +173,7 @@ public class TextFile {
 
 		if(isEndOfFile())
 		{
-			System.out.println("Ran out of tokens.");
+			System.out.println("ERROR: Ran out of tokens.");
 			return null;
 		}
 		

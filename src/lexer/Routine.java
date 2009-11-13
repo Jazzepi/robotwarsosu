@@ -1,11 +1,11 @@
 package lexer;
 
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 public class Routine {
 	
 	MainProgram main;
-	TreeSet<Subroutines> subroutines = new TreeSet<Subroutines>();
+	ArrayList<Subroutines> subroutines = new ArrayList<Subroutines>();
 	
 	void print()
 	{
@@ -62,7 +62,16 @@ public class Routine {
 				{
 					System.out.println("ERROR: MAIN or SUBROUTINE keyword expected while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");						
 				}
-			}			
+			}
+			else
+			{
+				stillProcessingSubroutines = false;
+				if(main == null)
+				{
+					System.out.println("ERROR: MAIN program required, none found.");
+				}
+				
+			}
 		}
 	}
 }
