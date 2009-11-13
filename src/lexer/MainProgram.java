@@ -1,5 +1,4 @@
 package lexer;
-import java.util.*;
 
 public class MainProgram {
 
