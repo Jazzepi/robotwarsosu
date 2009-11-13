@@ -19,6 +19,25 @@ public class Expression {
 	 */
 	Term first = null;
 	
+	public void print() {
+		if(first != null)
+		{
+			first.print();
+		}
+		else
+		{
+			System.out.print("ERROR:NoFirstTermExpression");
+		}
+		
+		int i = 0;
+		while(i < terms.size())
+		{
+			System.out.print(addops.get(i));
+			terms.get(i).print();
+			i++;
+		}
+	}
+	
 	public Expression(TextFile body) {
 	
 	
@@ -36,5 +55,7 @@ public class Expression {
 		}
 		
 	}
+
+
 
 }

@@ -8,6 +8,18 @@ public class Parameters {
 
 	ArrayList<String> parameterList = new ArrayList<String>();
 	
+	public void print() {
+		if(parameterList.size() > 0)
+		{
+			System.out.print(parameterList.get(0));
+		}
+		
+		for(int i = 1; i<parameterList.size(); i++)
+		{
+			System.out.print("," + parameterList.get(i));
+		}
+	}
+	
 	public Parameters(TextFile body) {
 		
 		Token current = body.getNonWSToken(true);
@@ -23,7 +35,7 @@ public class Parameters {
 				}
 				else
 				{
-					System.out.println("ERROR: IDENTIFIER token expected as a parameter, while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+					System.out.println("ERROR: IDENTIFIER token expected as a parameter, while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 				}
 			}
 		}
@@ -40,12 +52,14 @@ public class Parameters {
 			}
 			else
 			{
-				System.out.println("ERROR: IDENTIFIER token expected as a parameter, while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: IDENTIFIER token expected as a parameter, while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 			
 			current = body.getNonWSToken(true); //Look for a , to see if there are more variables
 		}
 		
 	}
+
+
 
 }

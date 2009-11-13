@@ -10,6 +10,24 @@ public class IfOnly implements Statement {
 	String condition;
 	Block ifBody;
 	
+	@Override
+	public void print() {
+		System.out.print("IF (");
+		leftExp.print();
+		if(condition != null)
+		{
+			System.out.print(condition);	
+		}
+		else
+		{
+			System.out.print("ERROR:NoCondition");
+		}
+		rightExp.print();
+		System.out.print(") {");
+		ifBody.print();
+		System.out.print("}");
+	}
+	
 	public IfOnly(TextFile body)
 	{
 		
@@ -25,7 +43,7 @@ public class IfOnly implements Statement {
 			}
 			else
 			{
-				System.out.println("ERROR: CONDITION token expected after EXPRESSION and before EXPRESSION while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: CONDITION token expected after EXPRESSION and before EXPRESSION while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}		
 		
@@ -37,7 +55,7 @@ public class IfOnly implements Statement {
 		{
 			if(!current.getText().equals(")"))
 			{
-				System.out.println("ERROR: ) symbol expected before body of IFONLY while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");	
+				System.out.println("ERROR: ) symbol expected before body of IFONLY while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");	
 			}
 		}
 		
@@ -51,7 +69,7 @@ public class IfOnly implements Statement {
 			}
 			else
 			{
-				System.out.println("ERROR: { symbol expected before body of IFONLY while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
+				System.out.println("ERROR: { symbol expected before body of IFONLY while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
 			}
 		}
 		
@@ -65,7 +83,7 @@ public class IfOnly implements Statement {
 			{}
 			else
 			{
-				System.out.println("ERROR: } symbol expected after body of IFONLY while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
+				System.out.println("ERROR: } symbol expected after body of IFONLY while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
 			}
 		}
 	}
@@ -75,5 +93,7 @@ public class IfOnly implements Statement {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

@@ -23,27 +23,28 @@ public class Start {
 		sFile.stripCommentsAndWhiteSpace();
 //		sFile.display();
 
-//		Routine program = new Routine(sFile);
+		Routine program = new Routine(sFile);
+		program.print();
 		
-		while(!sFile.isEndOfFile())
-		{
-			Token temp = null;
-			for(int i = 0; i < 2;i++)
-			{
-				temp = sFile.getNonWSToken(true);
-				System.out.print(temp.getText() +" IS A:");
-				System.out.println(temp.getType());
-			}
-			
-			temp = sFile.getNonWSToken(false);
-			System.out.print(temp.getText() +" IS A:");
-			System.out.println(temp.getType());
-		}
-		
-		for(int i = 0; i<50;i++)
-		{
-			Token temp = sFile.getNonWSToken(true);
-		}
+//		while(!sFile.isEndOfFile())
+//		{
+//			Token temp = null;
+//			for(int i = 0; i < 2;i++)
+//			{
+//				temp = sFile.getNonWSToken(true);
+//				System.out.print(temp.getText() +" IS A:");
+//				System.out.println(temp.getType());
+//			}
+//			
+//			temp = sFile.getNonWSToken(false);
+//			System.out.print(temp.getText() +" IS A:");
+//			System.out.println(temp.getType());
+//		}
+//		
+//		for(int i = 0; i<50;i++)
+//		{
+//			Token temp = sFile.getNonWSToken(true);
+//		}
 			
 
 	}

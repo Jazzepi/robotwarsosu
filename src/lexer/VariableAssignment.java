@@ -12,6 +12,50 @@ public class VariableAssignment implements Statement {
 	GameFunction gameFunction;
 	Parameters rightSidedFunctionCallParameters;
 	
+	@Override
+	public void print() {
+		
+		System.out.print("VAR ");
+		
+		if(leftSideVar != null)
+		{
+			System.out.print(leftSideVar + " ");
+		}
+		else
+		{
+			System.out.print("ERROR:MissingLeftSideID");
+		}
+		
+		System.out.print("=");
+		
+		if(gameFunction != null)
+		{
+			gameFunction.print();
+		}
+		else if(expression != null)
+		{
+			expression.print();
+		}
+		else if(rightSidedFunctionCallID != null)
+		{
+			System.out.print(rightSidedFunctionCallID + "( ");
+			if(rightSidedFunctionCallParameters != null )
+			{
+				rightSidedFunctionCallParameters.print();
+			}
+			else
+			{
+				System.out.print("ERROR:MissingRightSideFunctionCallParameters");
+			}
+			System.out.print(" )");
+		}
+		else
+		{
+			System.out.print("ERROR:MissingRightSideOfAssignmentStatement");
+		}
+		
+		System.out.print(";");
+	}
 	
 	public VariableAssignment(TextFile body) {
 		
@@ -25,7 +69,7 @@ public class VariableAssignment implements Statement {
 			}
 			else
 			{
-				System.out.println("ERROR: IDENTIFIER token expected after VAR while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");					
+				System.out.println("ERROR: IDENTIFIER token expected after VAR while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
 			}
 		}
 		
@@ -35,7 +79,7 @@ public class VariableAssignment implements Statement {
 		{
 			if(!current.getText().equals("="))
 			{
-				System.out.println("ERROR: = expected after VAR IDENTIFIER while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: = expected after VAR IDENTIFIER while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 		
@@ -59,7 +103,7 @@ public class VariableAssignment implements Statement {
 				{
 					if(!current.getText().equals("("))
 					{
-						System.out.println("ERROR: ( symbol expected to preceed PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+						System.out.println("ERROR: ( symbol expected to preceed PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 					}
 				}
 				
@@ -72,7 +116,7 @@ public class VariableAssignment implements Statement {
 				{
 					if(!current.getText().equals(")"))
 					{
-						System.out.println("ERROR: ) symbol expected to terminate PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+						System.out.println("ERROR: ) symbol expected to terminate PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 					}
 				}
 				
@@ -89,7 +133,7 @@ public class VariableAssignment implements Statement {
 		{
 			if(!current.getText().equals(";"))
 			{
-				System.out.println("ERROR: ; symbol expected to terminate VARIABLE ASSIGNMENT while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ; symbol expected to terminate VARIABLE ASSIGNMENT while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 
@@ -101,5 +145,7 @@ public class VariableAssignment implements Statement {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

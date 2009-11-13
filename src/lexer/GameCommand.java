@@ -6,6 +6,28 @@ public class GameCommand implements Statement {
 
 	Parameters parameters;
 	String gameCommandID;
+	
+	@Override
+	public void print() {
+		if(gameCommandID != null)
+		{
+			System.out.print(gameCommandID+ "(");
+			if(parameters != null)
+			{
+				parameters.print();
+			}
+			else
+			{
+				System.out.print("ERROR:NoParametersForGameCommand");
+			}
+			System.out.print(")");
+		}
+		else
+		{
+			System.out.print("ERROR:NoGameCommandID");
+		}
+		System.out.print(";");
+	}
 
 	public GameCommand(TextFile body, Token gameOrderAlreadyPulledOff) {
 		
@@ -17,7 +39,7 @@ public class GameCommand implements Statement {
 		{
 			if(!current.getText().equals("("))
 			{
-				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 		
@@ -29,7 +51,7 @@ public class GameCommand implements Statement {
 		{
 			if(!current.getText().equals(")"))
 			{
-				System.out.println("ERROR: ) symbol expected after PARAMETERS while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ) symbol expected after PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 	}
@@ -39,5 +61,7 @@ public class GameCommand implements Statement {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

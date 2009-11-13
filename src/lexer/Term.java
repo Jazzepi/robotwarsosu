@@ -19,6 +19,25 @@ public class Term {
 	 */
 	Factor first = null;
 	
+	public void print() {
+		if(first != null)
+		{
+			first.print();
+		}
+		else
+		{
+			System.out.print("ERROR:NoFirstFactorExpression");
+		}
+		
+		int i = 0;
+		while(i < factors.size())
+		{
+			System.out.print(multops.get(i));
+			factors.get(i).print();
+			i++;
+		}
+	}
+	
 	public Term(TextFile body)
 	{
 
@@ -35,5 +54,7 @@ public class Term {
 			current = body.getNonWSToken(true); //Check to see if there is another [multop->factor] pair to process
 		}
 	}
+
+
 
 }

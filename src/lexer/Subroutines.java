@@ -7,6 +7,12 @@ public class Subroutines {
 	String methodName; 
 	Parameters parameters;
 	Block subroutineBlock;
+	
+	public void print() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public Subroutines(TextFile body) {
 		
 		Token current = body.getNonWSToken(false);
@@ -19,7 +25,7 @@ public class Subroutines {
 			}
 			else
 			{
-				System.out.println("ERROR: IDENTIFIER token expected after SUBROUTINE while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: IDENTIFIER token expected after SUBROUTINE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 		
@@ -29,7 +35,7 @@ public class Subroutines {
 		{
 			if(!current.getText().equals("("))
 			{
-				System.out.println("ERROR: ( symbol expected before PARAMETERS of SUBROUTINE while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ( symbol expected before PARAMETERS of SUBROUTINE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 		
@@ -41,7 +47,7 @@ public class Subroutines {
 		{
 			if(!current.getText().equals(")"))
 			{
-				System.out.println("ERROR: ) symbol expected after PARAMETERS of SUBROUTINE while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ) symbol expected after PARAMETERS of SUBROUTINE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}	
 		
@@ -51,7 +57,7 @@ public class Subroutines {
 		{
 			if(!current.getText().equals("{"))
 			{
-				System.out.println("ERROR: { symbol expected before body of SUBROUTINE while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: { symbol expected before body of SUBROUTINE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 		
@@ -66,10 +72,11 @@ public class Subroutines {
 		{
 			if(!current.getText().equals("}"))
 			{
-				System.out.println("ERROR: } symbol expected after body of SUBROUTINE while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: } symbol expected after body of SUBROUTINE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 		 
 	}
+
 
 }

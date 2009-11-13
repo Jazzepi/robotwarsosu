@@ -162,7 +162,7 @@ public class TextFile {
 			while (flag != null && flag.getType() == TokenType.WS)
 			{
 				flag = getToken(false);
-			}			
+			}		
 		}
 
 		return flag;

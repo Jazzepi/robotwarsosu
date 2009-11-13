@@ -9,16 +9,37 @@ public class Factor implements Statement {
 	String digits = null;
 	String identifier = null;
 	Expression expression = null;
+	
+	@Override
+	public void print() {
+			if(digits != null)
+			{
+				System.out.print(digits);
+			}
+			else if(identifier != null)
+			{
+				System.out.print(identifier);
+			}
+			else if(expression != null)
+			{
+				System.out.print("(");
+				expression.print();
+				System.out.print(")");
+			}
+			else
+			{
+				System.out.print("ERROR:EmptyFactor");
+			}
+	}
 
 	public Factor(TextFile body) {
-		Token current = body.getNonWSToken(true);
+		
+		Token current = body.getNonWSToken(false);
+		
 		if(current != null)
 		{
 			if (current.getText().equals("(")) //Then we're processing an expression
 			{
-				//Peel off first ( , no need to error check, we know what token it is
-				current = body.getNonWSToken(false);
-
 				//Process expression
 				expression = new Expression(body);
 				//Peel off matching )
@@ -28,7 +49,7 @@ public class Factor implements Statement {
 				{
 					if(!current.getText().equals(")"))
 					{
-						System.out.println("ERROR: Symbol ) expected after EXPRESSION CONDITION EXPRESSION tokens while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");		
+						System.out.println("ERROR: Symbol ) expected after EXPRESSION CONDITION EXPRESSION tokens while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");		
 					}					
 				}
 			}
@@ -42,7 +63,7 @@ public class Factor implements Statement {
 			}
 			else //Error
 			{
-				System.out.println("ERROR: Symbol (, DIGITS token, or IDENTIFIER token expected for FACTOR, while parsing line "+ body.getLine()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: Symbol (, DIGITS token, or IDENTIFIER token expected for FACTOR, while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
 	}
@@ -52,5 +73,7 @@ public class Factor implements Statement {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

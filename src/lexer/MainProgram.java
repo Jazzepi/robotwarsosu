@@ -3,25 +3,26 @@ import java.util.*;
 
 public class MainProgram {
 
-	ArrayList<Block> mainProgram = new ArrayList<Block>(); 
+	Block mainProgram; 
 
+	void print()
+	{
+		System.out.print("MAIN {");
+		mainProgram.print();
+		System.out.print("}");
+	}
+	
 	public MainProgram(TextFile body) {
 
+		mainProgram = new Block(body);
 
-		Token lookAhead = body.getNonWSToken(true);		//Get first item off the statement 
+		Token current = body.getNonWSToken(false);
 
-		while(lookAhead != null && !lookAhead.getText().equals("}"))
+		if(current != null)
 		{
-			Block temp = new Block(body);
-			mainProgram.add(temp);
-			lookAhead = body.getNonWSToken(true);
-		}
-
-		if(lookAhead != null)
-		{
-			if(!lookAhead.getText().equals("}"))
+			if(!current.getText().equals("}"))
 			{
-				System.out.println("ERROR: } symbol expected after body of MAINPROGRAM while parsing line "+ body.getLine()+ ". Token " + lookAhead.getText() + " of type " + lookAhead.getType() + "found instead.");
+				System.out.println("ERROR: } symbol expected after body of MAINPROGRAM while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 	}
