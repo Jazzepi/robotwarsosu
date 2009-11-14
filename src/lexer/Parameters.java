@@ -8,6 +8,22 @@ public class Parameters {
 
 	ArrayList<String> parameterList = new ArrayList<String>();
 	
+	public String compile(TextFile flag) {
+		String builder = new String();
+		
+		if(parameterList.size() > 0)
+		{
+			builder += parameterList.get(0);
+		}
+		
+		for(int i = 1; i<parameterList.size(); i++)
+		{
+			builder += "," + parameterList.get(i);
+		}
+		
+		return builder;
+	}
+	
 	public void print() {
 		if(parameterList.size() > 0)
 		{
@@ -59,7 +75,4 @@ public class Parameters {
 		}
 		
 	}
-
-
-
 }

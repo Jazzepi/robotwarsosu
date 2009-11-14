@@ -1,5 +1,6 @@
 package lexer;
 
+
 import lexer.Token.TokenType;
 
 public class Subroutines {
@@ -7,6 +8,45 @@ public class Subroutines {
 	String methodName; 
 	Parameters parameters;
 	Block subroutineBlock;
+	
+	public void compile(TextFile flag) {
+		
+		String builder = new String("SUBROUTINE "); 
+		
+		if(methodName != null)
+		{
+			builder += methodName + " ";
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:Missing Subroutine Name ");
+			builder += "ERROR: Missing subroutine name";
+		}
+		
+		builder += "( ";
+
+		if(parameters != null )
+		{
+			builder += parameters.compile(flag);
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:Missing Parameters");
+			builder += "ERROR:Missing Parameters";
+		}
+		
+		builder += " )";
+		
+		if(subroutineBlock != null)
+		{
+			subroutineBlock.compile(flag);
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:Missing Subroutine Block");
+			flag.input("ERROR:Missing Subroutine Block");
+		}
+	}
 	
 	public void print() {
 		System.out.print("SUBROUTINE ");
@@ -110,6 +150,8 @@ public class Subroutines {
 		}
 		 
 	}
+
+
 
 
 }

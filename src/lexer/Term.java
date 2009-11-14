@@ -55,6 +55,11 @@ public class Term {
 		}
 	}
 
+	public void compile(TextFile flag) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

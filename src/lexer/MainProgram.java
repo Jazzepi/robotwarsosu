@@ -4,6 +4,20 @@ public class MainProgram {
 
 	Block mainProgram; 
 
+	public void compile(TextFile flag) {
+		flag.input("MAIN");
+		
+		if(mainProgram != null)
+		{
+			mainProgram.compile(flag);
+		}
+		else
+		{
+			System.out.println("COMPILATION ERROR:Missing Subroutine Block");
+			flag.input("ERROR: MISSING BLOCK");
+		}	
+	}
+	
 	void print()
 	{
 		System.out.print("MAIN {");
@@ -25,5 +39,7 @@ public class MainProgram {
 			}
 		}
 	}
+
+
 
 }

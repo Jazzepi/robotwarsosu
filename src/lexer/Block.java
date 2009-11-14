@@ -8,6 +8,15 @@ public class Block {
 
 	ArrayList<Statement> block = new ArrayList<Statement>();
 
+	public void compile(TextFile flag) {
+		
+		for(Statement element : block)
+		{
+			element.compile(flag);
+		}
+		
+	}
+	
 	void print()
 	{
 		for(Statement element : block)
@@ -107,4 +116,6 @@ public class Block {
 			}
 		}
 	}
+
+
 }

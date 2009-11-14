@@ -6,6 +6,31 @@ public class GameFunction {
 	String gameFunctionID;
 	private Parameters parameters;
 
+	public void compile(TextFile flag) {
+		String builder = new String();
+		
+		if(gameFunctionID != null)
+		{
+			builder += gameFunctionID+ "( ";
+			if(parameters != null)
+			{
+				builder += parameters.compile(flag);
+			}
+			else
+			{
+				System.out.print("COMPILATION ERROR:No Parameters For Game Function");
+				builder += "ERROR:No Parameters For Game Function";
+			}
+			builder +=" )";
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:No Game Function ID");
+			builder += "ERROR:No ID For Game Function";
+		}
+		flag.input(builder);
+	}
+	
 	void print()
 	{
 		if(gameFunctionID != null)
@@ -53,5 +78,7 @@ public class GameFunction {
 			}
 		}
 	}
+
+
 
 }

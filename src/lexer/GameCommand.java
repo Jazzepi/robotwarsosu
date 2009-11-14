@@ -1,11 +1,37 @@
 package lexer;
 
-import java.util.ArrayList;
 
 public class GameCommand implements Statement {
 
 	Parameters parameters;
 	String gameCommandID;
+	
+	@Override
+	public void compile(TextFile flag) {
+
+		String builder = new String();
+		
+		if(gameCommandID != null)
+		{
+			builder += gameCommandID+ "( ";
+			
+			if(parameters != null)
+			{
+				builder += parameters.compile(flag);
+			}
+			else
+			{
+				System.out.print("COMPILATION ERROR:No Parameters For Game Command");
+				builder += ("ERROR:No Parameters For Game Command");
+			}
+			builder += " )";
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:No Game Command ID");
+			builder += "ERROR:No Game Command ID";
+		}
+	}
 	
 	@Override
 	public void print() {
@@ -55,13 +81,4 @@ public class GameCommand implements Statement {
 			}
 		}
 	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 }

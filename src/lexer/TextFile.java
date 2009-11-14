@@ -344,8 +344,8 @@ public class TextFile {
 	}
 
 	/**
-	 * Inserts a line of text at the specified line in the textfile. Bumps the line of text that was there down one line.
-	 * @param entry	Should not be longer than the number of rows in the textfile
+	 * Creates a new line of text at the end of the textfile.
+	 * @param entry	Text to be appended to the end of the textfile
 	 */
 	public void input(String entry)
 	{

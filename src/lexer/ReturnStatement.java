@@ -1,13 +1,29 @@
 package lexer;
 
-import java.util.ArrayList;
-
 import lexer.Token.TokenType;
 
 public class ReturnStatement implements Statement {
 
 	String variableName = null;
 
+	@Override
+	public void compile(TextFile flag) {
+		String builder = new String("RETURN ");
+
+		if(variableName != null)
+		{
+			builder +=variableName;
+		}
+		else
+		{
+			System.out.println("COMPLIATION ERROR:Missing Variable Name");
+			builder +=("ERROR:Missing Variable Name");
+		}
+		
+		flag.input(builder);
+		
+	}
+	
 	@Override
 	public void print() {
 
@@ -50,12 +66,6 @@ public class ReturnStatement implements Statement {
 				System.out.println("ERROR: ; symbol expected after RETURN STATEMENT while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

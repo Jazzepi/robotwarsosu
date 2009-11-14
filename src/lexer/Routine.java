@@ -7,6 +7,26 @@ public class Routine {
 	MainProgram main;
 	ArrayList<Subroutines> subroutines = new ArrayList<Subroutines>();
 	
+	TextFile compile()
+	{
+		TextFile flag = new TextFile();
+		for(Subroutines element : subroutines)
+		{
+			element.compile(flag);
+		}
+		
+		if(main != null)
+		{
+			main.compile(flag);
+		}
+		else
+		{
+			System.out.println("COMPLIATION ERROR:Main Program Missing");
+		}
+		
+		return flag;
+	}
+	
 	void print()
 	{
 		for(Subroutines element : subroutines)
