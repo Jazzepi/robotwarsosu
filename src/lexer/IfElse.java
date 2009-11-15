@@ -6,35 +6,37 @@ public class IfElse implements Statement {
 	Expression leftExp, rightExp;
 	String condition;
 	Block ifBody,elseBody;
-	
+
 	@Override
 	public void compile(TextFile flag) {
-		
+
 		flag.input("LEFTEXPRESSION");
 		leftExp.compile(flag);
-		
+
 		flag.input("RIGHTEXPRESSION");
 		rightExp.compile(flag);
-		
+
+		int spotToInputIFJUMP = flag.getReport();
+		ifBody.compile(flag);
+		int ifBlockSize = flag.getReport() - spotToInputIFJUMP; 
+		int spotToInputELSEJUMP = flag.getReport() + 1;
+		elseBody.compile(flag);
+
 		if(condition != null)
 		{
-			int insertSpot = flag.getReport();
-			
 			ifBody.compile(flag);
-			
-			int jumpToElseSpot = flag.getReport() - insertSpot + 3;
-			
-			flag.input("IF " + Token.NegateCondition(condition) + " JUMP " + jumpToElseSpot);
+			flag.insertLine(spotToInputIFJUMP, "IFELSE " + Token.NegateCondition(condition) + " JUMP " + (ifBlockSize + 2));
+			flag.insertLine(spotToInputELSEJUMP, "JUMP " + (flag.getReport() - spotToInputELSEJUMP + 1));
 		}
 		else
 		{
 			System.out.print("COMPILATION ERROR:No Condition");
 			flag.input("ERROR:No condition");
 		}		
-		
+
 	}
 
-	
+
 	@Override
 	public void print() {
 		System.out.print("IFELSE (");
@@ -54,14 +56,14 @@ public class IfElse implements Statement {
 		elseBody.print();
 		System.out.print("}");
 	}
-	
+
 
 	public IfElse(TextFile body) {
-		
+
 		leftExp = new Expression(body);
-		
+
 		Token current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(current.getType() == TokenType.CONDITION)
@@ -73,11 +75,11 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: CONDITION token expected after EXPRESSION and before EXPRESSION while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}		
-		
+
 		rightExp = new Expression(body);
-		
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals(")"))
@@ -85,9 +87,9 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: ) symbol expected before body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");	
 			}
 		}
-		
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals("{"))
@@ -95,10 +97,10 @@ public class IfElse implements Statement {
 		}
 
 		ifBody = new Block(body);
-		
-		
+
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals("}"))
@@ -106,11 +108,11 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: } symbol expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
-		
-		
-		
+
+
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals("ELSE"))
@@ -118,9 +120,9 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: ELSE keyword expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");				
 			}
 		}
-		
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals("{"))
@@ -128,11 +130,11 @@ public class IfElse implements Statement {
 				System.out.println("ERROR: { symbol expected after first body of IFELSE while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");				
 			}
 		}
-		
+
 		elseBody = new Block(body);
-		
+
 		current = body.getNonWSToken(false);
-		
+
 		if(current != null)
 		{
 			if(!current.getText().equals("}"))

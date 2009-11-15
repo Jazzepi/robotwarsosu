@@ -5,26 +5,8 @@ import java.util.ArrayList;
 public class Routine {
 	
 	MainProgram main;
-	static ArrayList<Subroutine> subroutines = new ArrayList<Subroutine>();
+	ArrayList<Subroutine> subroutines = new ArrayList<Subroutine>();
 	
-	static Subroutine fetchSubroutine(String subroutineName)
-	{
-		Subroutine flag = null;
-		for(Subroutine element: subroutines)
-		{
-			if(subroutineName.equals(element.fetchName()))
-			{
-				flag = element;
-			}
-		}
-		
-		if(flag == null)
-		{
-			System.out.println("COMPILATION ERROR: Referenced subroutine " + subroutineName + " does not exsist.");
-		}
-		
-		return flag;
-	}
 	
 	TextFile compile()
 	{

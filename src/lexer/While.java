@@ -1,7 +1,5 @@
 package lexer;
 
-import java.util.ArrayList;
-
 import lexer.Token.TokenType;
 
 public class While implements Statement {
@@ -9,6 +7,38 @@ public class While implements Statement {
 	Expression leftExp,rightExp;
 	String condition;
 	Block whileBody;
+	
+	@Override
+	public void compile(TextFile flag) {
+		int spotForWhileToJumpBackTo = flag.getReport();
+		
+		flag.input("LEFTEXPRESSION");
+		int lengthOfLeftExpression = flag.getReport();
+		leftExp.compile(flag);
+		lengthOfLeftExpression = flag.getReport() - lengthOfLeftExpression;
+		
+		flag.input("RIGHTEXPRESSION");
+		int lengthOfRightExpression = flag.getReport();
+		rightExp.compile(flag);
+		lengthOfRightExpression = flag.getReport() - lengthOfRightExpression;
+		
+		int spotToInsertWHILEJUMP = flag.getReport();
+		
+		whileBody.compile(flag);
+		
+		flag.input("JUMP -" + (flag.getReport() - spotForWhileToJumpBackTo + 1));
+		flag.insertLine(spotToInsertWHILEJUMP, "WHILE " + Token.NegateCondition(condition) + " JUMP " + (flag.getReport() - spotToInsertWHILEJUMP + 1));
+		
+		if(condition != null)
+		{
+			
+		}
+		else
+		{
+			
+		}
+		
+	}
 	
 	@Override
 	public void print() {
@@ -87,13 +117,4 @@ public class While implements Statement {
 			}
 		}
 	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 }
