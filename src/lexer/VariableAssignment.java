@@ -37,14 +37,16 @@ public class VariableAssignment implements Statement {
 			}
 			
 			builder += (" )");
+			flag.input(builder);
 		}
 		else
 		{
 			System.out.print("COMPILATION ERROR:Missing Right Side Of Assignment Statement");
 			builder += "ERROR: Missing Right Side Of Assignment Statement";
+			flag.input(builder);
 		}
 		
-		flag.input(builder);
+		
 
 		builder = ("VAR ");
 		

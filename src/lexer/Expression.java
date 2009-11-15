@@ -19,23 +19,45 @@ public class Expression {
 	 */
 	Term first = null;
 	
-	public void compile(TextFile flag) {
+	private static int counter = 0;
+	
+	public static void incrementCounter()
+	{
+		counter++;
+	}
+	
+	public static int getCounterVal()
+	{
+		return counter;
+	}
+	
+	public int compile(TextFile flag) {
+		
+		Expression.incrementCounter();
+		int thisM = Expression.getCounterVal();
+		int firstM;
+		
 		if(first != null)
 		{
-			first.compile(flag);
+			firstM = first.compile(flag);
+			flag.input("#" + thisM + " = " + "#" + firstM);
 		}
 		else
 		{
-			System.out.print("ERROR:NoFirstTermExpression");
+			System.out.print("COMPILATION ERROR:No First Term Expression");
+			flag.input("ERROR:No First Term Expression");
 		}
 		
 		int i = 0;
 		while(i < terms.size())
 		{
-			System.out.print(addops.get(i));
-			terms.get(i).print();
+			int tempM;
+			tempM = terms.get(i).compile(flag);
+			flag.input("#" + thisM + " = " + "#" + thisM + " " + addops.get(i) + " #" + tempM );
 			i++;
 		}
+		
+		return thisM;
 	}
 	
 	public void print() {

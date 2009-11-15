@@ -19,6 +19,37 @@ public class Term {
 	 */
 	Factor first = null;
 	
+	public int compile(TextFile flag) {
+
+		Expression.incrementCounter();
+		int thisM = Expression.getCounterVal();
+		int firstM;
+		
+		if(first != null)
+		{
+			firstM = first.compile(flag);
+			flag.input("#" + thisM + " = " + "#" + firstM);
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:No First Factor Term");
+			flag.input("ERROR:No First Factor Term");
+		}
+		
+		int i = 0;
+		
+		while(i < factors.size())
+		{
+			int tempM;
+			tempM = factors.get(i).compile(flag);
+			flag.input("#" + thisM + " = " + "#" + thisM + " " + multops.get(i) + " #" + tempM );
+			i++;
+		}
+		
+		return thisM;
+		
+	}
+	
 	public void print() {
 		if(first != null)
 		{
@@ -26,7 +57,7 @@ public class Term {
 		}
 		else
 		{
-			System.out.print("ERROR:NoFirstFactorExpression");
+			System.out.print("ERROR:NoFirstFactorTerm");
 		}
 		
 		int i = 0;
@@ -55,10 +86,6 @@ public class Term {
 		}
 	}
 
-	public void compile(TextFile flag) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 

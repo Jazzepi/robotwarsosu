@@ -24,7 +24,9 @@ public class Start {
 //		sFile.display();
 
 		Routine program = new Routine(sFile);
-		program.print();
+		//program.print();
+		TextFile compilation = program.compile();
+		compilation.display();
 		
 //		while(!sFile.isEndOfFile())
 //		{

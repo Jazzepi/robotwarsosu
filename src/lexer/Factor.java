@@ -1,16 +1,38 @@
 package lexer;
 
-import java.util.ArrayList;
-
 import lexer.Token.TokenType;
 
-public class Factor implements Statement {
+public class Factor {
 
 	String digits = null;
 	String identifier = null;
 	Expression expression = null;
 	
-	@Override
+	public int compile(TextFile flag) {
+		Expression.incrementCounter();
+		int thisM = Expression.getCounterVal();
+		
+		if(digits != null)
+		{
+			flag.input("#" + thisM + " = " + digits);
+		}
+		else if(identifier != null)
+		{
+			flag.input("#" + thisM + " = " + identifier);
+		}
+		else if(expression != null)
+		{
+			flag.input("#" + thisM + " = " + "#" + expression.compile(flag));
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:Empty Factor");
+			flag.input("ERROR:Empty Factor");
+		}
+		
+		return thisM;
+	}
+	
 	public void print() {
 			if(digits != null)
 			{
@@ -66,12 +88,6 @@ public class Factor implements Statement {
 				System.out.println("ERROR: Symbol (, DIGITS token, or IDENTIFIER token expected for FACTOR, while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
 			}
 		}
-	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

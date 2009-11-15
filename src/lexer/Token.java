@@ -41,7 +41,7 @@ public class Token {
 		public static Boolean matchesToken(TokenType type, String text)
 		{
 			boolean flag = false;
-			
+
 			if(type == TokenType.WS)
 			{
 				if(text.matches("[\\s]+"))
@@ -86,6 +86,39 @@ public class Token {
 	{
 		this.type = type;
 		this.text = text;
+	}
+
+	public static String NegateCondition(String condition) {
+		if(condition.equals("=="))
+		{
+			condition = "!=";
+		}
+		else if(condition.equals("<"))
+		{
+			condition = ">=";
+		}
+		else if(condition.equals(">"))
+		{
+			condition = "<=";
+		}
+		else if(condition.equals("<="))
+		{
+			condition = ">";
+		}
+		else if(condition.equals(">="))
+		{
+			condition = "<";
+		}
+		else if(condition.equals("!="))
+		{
+			condition = "==";
+		}
+		else
+		{
+			condition = "ERROR INVALID CONDITION";
+		}
+		
+		return condition;
 	}
 
 

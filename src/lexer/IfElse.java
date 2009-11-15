@@ -10,6 +10,34 @@ public class IfElse implements Statement {
 	Block ifBody,elseBody;
 	
 	@Override
+	public void compile(TextFile flag) {
+		
+		flag.input("LEFTEXPRESSION");
+		leftExp.compile(flag);
+		
+		flag.input("RIGHTEXPRESSION");
+		rightExp.compile(flag);
+		
+		if(condition != null)
+		{
+			int insertSpot = flag.getReport();
+			
+			ifBody.compile(flag);
+			
+			int jumpToElseSpot = flag.getReport() - insertSpot + 3;
+			
+			flag.input("IF " + Token.NegateCondition(condition) + " JUMP " + jumpToElseSpot);
+		}
+		else
+		{
+			System.out.print("COMPILATION ERROR:No Condition");
+			flag.input("ERROR:No condition");
+		}		
+		
+	}
+
+	
+	@Override
 	public void print() {
 		System.out.print("IFELSE (");
 		leftExp.print();
@@ -28,6 +56,7 @@ public class IfElse implements Statement {
 		elseBody.print();
 		System.out.print("}");
 	}
+	
 
 	public IfElse(TextFile body) {
 		
@@ -114,13 +143,4 @@ public class IfElse implements Statement {
 			}
 		}
 	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 }
