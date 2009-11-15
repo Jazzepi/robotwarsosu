@@ -1,7 +1,5 @@
 package lexer;
 
-import java.util.ArrayList;
-
 import lexer.Token.TokenType;
 
 public class IfElse implements Statement {

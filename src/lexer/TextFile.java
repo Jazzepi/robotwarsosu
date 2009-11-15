@@ -350,6 +350,7 @@ public class TextFile {
 	public void input(String entry)
 	{
 		body.add(entry);
+		rowPointer++;
 	}
 
 	/**

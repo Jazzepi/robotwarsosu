@@ -1,6 +1,6 @@
 package lexer;
 
-import lexer.Token.TokenType;
+import lexer.Token.TokenType;	
 
 public class VariableAssignment implements Statement {
 
@@ -32,12 +32,22 @@ public class VariableAssignment implements Statement {
 			}
 			else
 			{
-				System.out.print("COMPILATION ERROR:Missing Right Side Function Call Parameters");
+				System.out.println("COMPILATION ERROR:Missing Right Side Function Call Parameters");
 				builder += "ERROR: Missing Parameters";
 			}
 			
 			builder += (" )");
 			flag.input(builder);
+//			Subroutine temp = Routine.fetchSubroutine(rightSidedFunctionCallID);
+//			if(temp != null)
+//			{
+//				Routine.fetchSubroutine(rightSidedFunctionCallID).compile(flag);
+//			}
+//			else
+//			{
+//				flag.input("ERROR:Missing Subroutine");
+//			}
+			
 		}
 		else
 		{
@@ -46,8 +56,6 @@ public class VariableAssignment implements Statement {
 			flag.input(builder);
 		}
 		
-		
-
 		builder = ("VAR ");
 		
 		if(leftSideVar != null)

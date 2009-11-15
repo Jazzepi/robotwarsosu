@@ -22,7 +22,8 @@ public class Start {
 //		sFile.display();
 		sFile.stripCommentsAndWhiteSpace();
 //		sFile.display();
-
+		sFile.reset();
+		
 		Routine program = new Routine(sFile);
 		//program.print();
 		TextFile compilation = program.compile();

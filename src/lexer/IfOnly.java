@@ -1,7 +1,5 @@
 package lexer;
 
-import java.util.ArrayList;
-
 import lexer.Token.TokenType;
 
 public class IfOnly implements Statement {
@@ -9,6 +7,28 @@ public class IfOnly implements Statement {
 	Expression leftExp, rightExp;
 	String condition;
 	Block ifBody;
+	
+	@Override
+	public void compile(TextFile flag) {
+		
+		flag.input("LEFTEXPRESSION");
+		leftExp.compile(flag);
+		flag.input("RIGHTEXPRESSION");
+		rightExp.compile(flag);
+		
+		int spotToInputIFJUMP = flag.getReport();
+		ifBody.compile(flag);
+		
+		if(condition != null)
+		{
+			flag.insertLine(spotToInputIFJUMP, "IF " + Token.NegateCondition(condition) + " JUMP " + (flag.getReport() - spotToInputIFJUMP + 1));	
+		}
+		else
+		{
+			flag.insertLine(spotToInputIFJUMP, "IF " + "ERROR:Missing condition " + " JUMP " + (flag.getReport() - spotToInputIFJUMP + 1));
+			System.out.println("COMPILATION ERROR:Missing condition");
+		}
+	}
 	
 	@Override
 	public void print() {
@@ -87,13 +107,4 @@ public class IfOnly implements Statement {
 			}
 		}
 	}
-
-	@Override
-	public ArrayList<String> evaluate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 }

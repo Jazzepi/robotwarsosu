@@ -5,12 +5,31 @@ import java.util.ArrayList;
 public class Routine {
 	
 	MainProgram main;
-	ArrayList<Subroutines> subroutines = new ArrayList<Subroutines>();
+	static ArrayList<Subroutine> subroutines = new ArrayList<Subroutine>();
+	
+	static Subroutine fetchSubroutine(String subroutineName)
+	{
+		Subroutine flag = null;
+		for(Subroutine element: subroutines)
+		{
+			if(subroutineName.equals(element.fetchName()))
+			{
+				flag = element;
+			}
+		}
+		
+		if(flag == null)
+		{
+			System.out.println("COMPILATION ERROR: Referenced subroutine " + subroutineName + " does not exsist.");
+		}
+		
+		return flag;
+	}
 	
 	TextFile compile()
 	{
 		TextFile flag = new TextFile();
-		for(Subroutines element : subroutines)
+		for(Subroutine element : subroutines)
 		{
 			element.compile(flag);
 		}
@@ -29,7 +48,7 @@ public class Routine {
 	
 	void print()
 	{
-		for(Subroutines element : subroutines)
+		for(Subroutine element : subroutines)
 		{
 			element.print();
 		}
@@ -74,7 +93,7 @@ public class Routine {
 				}
 				else if(current.getText().equals("SUBROUTINE"))
 				{
-					Subroutines temp = new Subroutines(body);
+					Subroutine temp = new Subroutine(body);
 					subroutines.add(temp);
 					current = body.getNonWSToken(false); //Prime for next subroutine call or main program body
 				}

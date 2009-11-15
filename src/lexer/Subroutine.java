@@ -3,11 +3,26 @@ package lexer;
 
 import lexer.Token.TokenType;
 
-public class Subroutines {
+public class Subroutine {
 
 	String methodName; 
 	Parameters parameters;
 	Block subroutineBlock;
+	
+	String fetchName()
+	{
+		return methodName;
+	}
+	
+	Block fetchBlock()
+	{
+		return subroutineBlock;
+	}
+	
+	Parameters fetchParameters()
+	{
+		return parameters;
+	}
 	
 	public void compile(TextFile flag) {
 		
@@ -37,6 +52,7 @@ public class Subroutines {
 		
 		builder += " )";
 		
+		flag.input(builder);
 		if(subroutineBlock != null)
 		{
 			subroutineBlock.compile(flag);
@@ -86,7 +102,7 @@ public class Subroutines {
 		System.out.println();
 	}
 	
-	public Subroutines(TextFile body) {
+	public Subroutine(TextFile body) {
 		
 		Token current = body.getNonWSToken(false);
 		
