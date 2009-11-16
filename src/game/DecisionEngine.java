@@ -11,7 +11,7 @@ public class DecisionEngine {
 	private TextFile executionCode;
 	private HashMap<String, Integer> subroutineLocation = new HashMap<String, Integer>();
 	private HashMap<String, Integer> symbolTable = new HashMap<String, Integer>();
-
+	private Integer retValue;
 
 	DecisionEngine(TextFile executionCode)
 	{
@@ -22,17 +22,17 @@ public class DecisionEngine {
 
 	private void collectSubroutines(TextFile executionCode) {
 		boolean stillProcessing = true;
-		
+
 		while(stillProcessing)
 		{
 			String current = executionCode.getLine();
 			StringTokenizer st = new StringTokenizer(current," (),",true);
 			String temp = st.nextToken();
-			
+
 			if(temp.equals("SUBROUTINE"))
 			{
 				temp = st.nextToken();
-				
+
 				if (subroutineLocation.containsKey(temp))
 				{
 					System.out.println("RUNTIME ERROR: The subroutine name " + temp + " has been used twice.");
@@ -54,7 +54,7 @@ public class DecisionEngine {
 		int counter = 0;
 		boolean haveGameCommand = false;
 		GameCommand extractedGameCommand = null;
-		
+
 		while(!haveGameCommand && counter < MAXEXECUTIONCYCLE)
 		{
 			String current = executionCode.getLine();
@@ -64,7 +64,7 @@ public class DecisionEngine {
 			{
 				boolean haveNotFinishedLeftEXP = true;
 				String leftVariableToBeStored =null;
-				
+
 				while(haveNotFinishedLeftEXP)
 				{
 					current = executionCode.getLine();
@@ -74,7 +74,7 @@ public class DecisionEngine {
 					stTemp.nextToken(); //will be =
 					stTemp.nextToken(); //will be space
 					String firstRightSide = stTemp.nextToken(); //Could be #3 or 3 or x
-					
+
 					if(TokenType.matchesToken(TokenType.DIGITS, firstRightSide)) //Is a literal
 					{
 						symbolTable.put(leftVariableToBeStored, Integer.parseInt(firstRightSide)); //Stick the new value into the symbol table
@@ -113,9 +113,9 @@ public class DecisionEngine {
 							symbolTable.put(leftVariableToBeStored, symbolTable.get(firstRightSide));
 						}
 					}
-					
+
 					current = executionCode.getLine();
-					
+
 					if(current.equals("RIGHTEXPRESSION"))
 					{
 						haveNotFinishedLeftEXP = false;
@@ -125,11 +125,11 @@ public class DecisionEngine {
 						executionCode.addToRow(-1);
 					}
 				}
-				
+
 				//String rightVariableToBeStored;
 				boolean haveNotFinishedRightEXP = true;
 				String rightVariableToBeStored = null;
-				
+
 				while(haveNotFinishedRightEXP)
 				{
 					current = executionCode.getLine();
@@ -177,9 +177,9 @@ public class DecisionEngine {
 							symbolTable.put(rightVariableToBeStored, symbolTable.get(firstRightSide));
 						}
 					}
-					
+
 					current = executionCode.getLine();
-					
+
 					if(current.startsWith("IF") || current.startsWith("WHILE"))
 					{
 						haveNotFinishedRightEXP = false;
@@ -187,7 +187,7 @@ public class DecisionEngine {
 
 					executionCode.addToRow(-1);
 				}
-				
+
 				current = executionCode.getLine();
 				st = new StringTokenizer(current," (),+-/%*",true);
 				st.nextToken(); //Should be IFELSE, IF, or WHILE
@@ -197,7 +197,7 @@ public class DecisionEngine {
 				st.nextToken(); //Should be JUMP
 				st.nextToken(); //Should be space
 				String jumpAmount = st.nextToken(); //Should be JUMP amount
-				
+
 				if(jumpCondition.equals("=="))
 				{
 					if(symbolTable.get(leftVariableToBeStored) == symbolTable.get(rightVariableToBeStored))
@@ -240,15 +240,103 @@ public class DecisionEngine {
 						executionCode.addToRow(Integer.parseInt(jumpAmount)-1);
 					}
 				}
-				
+
 			}
 			else if(token.equals("RETURN"))
 			{
-				
+				st.nextToken(); //Gets a space
+				token = st.nextToken(); //Gets the variable to return 
+				retValue = symbolTable.get(token); //Put the value from the variable into the return register
 			}
-			else if(token.equals("VAR"))
+			else if(token.startsWith("#"))
 			{
 				
+				boolean haveFoundVar = false;
+				String thisLine;
+				String runningTotalVariable = token;
+				st.nextToken(); //Space
+				st.nextToken(); //=
+				st.nextToken(); //Space
+				String firstRightSide = st.nextToken(); //Either a literal, or a variable
+				
+				if(TokenType.matchesToken(TokenType.DIGITS, firstRightSide))
+				{
+					symbolTable.put(runningTotalVariable, Integer.parseInt(firstRightSide));
+				}
+				else
+				{
+					symbolTable.put(runningTotalVariable, symbolTable.get(firstRightSide));
+				}
+				
+				while(!haveFoundVar)
+				{
+					thisLine = executionCode.getLine();
+					StringTokenizer tokenizedLine = new StringTokenizer(thisLine," (),+-*/%",true);
+					String expToken = tokenizedLine.nextToken();
+					if(expToken.equals("VAR"))
+					{
+						haveFoundVar = true;
+						tokenizedLine.nextToken(); //Get rid of space
+						String variableToStoreInto = tokenizedLine.nextToken(); //Variable I want to store the expression into
+						symbolTable.put(variableToStoreInto, symbolTable.get(runningTotalVariable));
+					}
+					else
+					{
+						runningTotalVariable = expToken; //Store left sided variable for later use
+						expToken = tokenizedLine.nextToken(); //Space
+						expToken = tokenizedLine.nextToken(); //=
+						expToken = tokenizedLine.nextToken(); //Space
+						firstRightSide = tokenizedLine.nextToken(); //#3, 3, or variable
+						
+						if(tokenizedLine.hasMoreTokens())
+						{
+							tokenizedLine.nextToken(); //will be space
+							String operator = tokenizedLine.nextToken();
+							tokenizedLine.nextToken(); //will be space
+							String secondRightSide = tokenizedLine.nextToken();
+							if(operator.equals("+"))
+							{
+								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) + symbolTable.get(secondRightSide)));
+							}
+							else if(operator.equals("-"))
+							{
+								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) - symbolTable.get(secondRightSide)));
+							}
+							else if(operator.equals("*"))
+							{
+								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) * symbolTable.get(secondRightSide)));
+							}
+							else if(operator.equals("%"))
+							{
+								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) % symbolTable.get(secondRightSide)));
+							}
+							else// operator is /
+							{
+								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) / symbolTable.get(secondRightSide)));
+							}
+
+						}
+						else //No more tokens, either a literal or a symbol
+						{
+							if(TokenType.matchesToken(TokenType.DIGITS, firstRightSide))
+							{
+								symbolTable.put(runningTotalVariable, Integer.parseInt(firstRightSide));
+							}
+							else
+							{
+								symbolTable.put(runningTotalVariable, symbolTable.get(firstRightSide));
+							}
+						}
+					}
+				}
+			}
+			else if(token.equals("CALL"))
+			{
+
+			}
+			else if(TokenType.matchesToken(TokenType.GAMEFUNCTION,token))
+			{
+
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEORDER, token))
 			{
@@ -256,7 +344,7 @@ public class DecisionEngine {
 				boolean firstTimeThrough = true;
 				token = st.nextToken(); // (
 				token = st.nextToken(); // either ) or a parameter
-				
+
 				while(!token.equals(")"))
 				{
 					if(firstTimeThrough)
@@ -268,10 +356,10 @@ public class DecisionEngine {
 					{
 						extractedGameCommand.addParameter(st.nextToken());
 					}
-					
+
 					token = st.nextToken();
 				}
-				
+				haveGameCommand = true;
 			}
 			else if(token.equals("JUMP"))
 			{
@@ -281,7 +369,7 @@ public class DecisionEngine {
 
 			counter++;
 		}
-		
+
 		return extractedGameCommand;
 	}
 }
