@@ -249,6 +249,8 @@ public class DecisionEngine {
 				st.nextToken(); //Gets a space
 				token = st.nextToken(); //Gets the variable to return 
 				retValue = symbolTable.get(token); //Put the value from the variable into the return register
+				executionCode.setRow(returnLocation); //Return to the location where execution is suppose to begin
+				symbolTable.put(returnValueIntoThisVar, retValue); //Put the value that was calculated during the subroutine into the VAR <variable> following the CALL command
 			}
 			else if(token.startsWith("#"))
 			{
