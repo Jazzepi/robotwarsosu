@@ -24,7 +24,7 @@ public class VariableAssignment implements Statement {
 		}
 		else if(rightSidedFunctionCallID != null)
 		{
-			builder += ("CALL " + rightSidedFunctionCallID + "( ");
+			builder += ("CALL " + rightSidedFunctionCallID + "(");
 			
 			if(rightSidedFunctionCallParameters != null )
 			{
@@ -36,7 +36,7 @@ public class VariableAssignment implements Statement {
 				builder += "ERROR: Missing Parameters";
 			}
 			
-			builder += (" )");
+			builder += (")");
 			flag.input(builder);
 //			Subroutine temp = Routine.fetchSubroutine(rightSidedFunctionCallID);
 //			if(temp != null)

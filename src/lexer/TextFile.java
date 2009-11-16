@@ -323,6 +323,15 @@ public class TextFile {
 
 		return rVal;
 	}
+	
+	/**
+	 * Adds some amount to the row counter. Useful for backing up.
+	 * @param amount
+	 */
+	public void addToRow(int amount)
+	{
+		rowPointer -= amount;
+	}
 
 
 	/** 

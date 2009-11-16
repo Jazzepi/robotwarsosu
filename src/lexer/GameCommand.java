@@ -13,7 +13,7 @@ public class GameCommand implements Statement {
 		
 		if(gameCommandID != null)
 		{
-			builder += gameCommandID+ "( ";
+			builder += gameCommandID+ "(";
 			
 			if(parameters != null)
 			{
@@ -24,7 +24,7 @@ public class GameCommand implements Statement {
 				System.out.print("COMPILATION ERROR:No Parameters For Game Command");
 				builder += ("ERROR:No Parameters For Game Command");
 			}
-			builder += " )";
+			builder += ")";
 		}
 		else
 		{

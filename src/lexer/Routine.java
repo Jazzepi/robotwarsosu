@@ -81,7 +81,12 @@ public class Routine {
 				}
 				else
 				{
-					System.out.println("ERROR: MAIN or SUBROUTINE keyword expected while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");						
+					System.out.println("ERROR: MAIN or SUBROUTINE keyword expected while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
+					Token garbage = body.getNonWSToken(false);
+					if(garbage == null)
+					{
+						stillProcessingSubroutines = false;
+					}
 				}
 			}
 			else

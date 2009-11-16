@@ -11,7 +11,7 @@ public class GameFunction {
 		
 		if(gameFunctionID != null)
 		{
-			builder += gameFunctionID+ "( ";
+			builder += gameFunctionID+ "(";
 			if(parameters != null)
 			{
 				builder += parameters.compile(flag);
@@ -21,7 +21,7 @@ public class GameFunction {
 				System.out.print("COMPILATION ERROR:No Parameters For Game Function");
 				builder += "ERROR:No Parameters For Game Function";
 			}
-			builder +=" )";
+			builder +=")";
 		}
 		else
 		{

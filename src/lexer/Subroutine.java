@@ -38,7 +38,7 @@ public class Subroutine {
 			builder += "ERROR: Missing subroutine name";
 		}
 		
-		builder += "( ";
+		builder += "(";
 
 		if(parameters != null )
 		{
@@ -50,7 +50,7 @@ public class Subroutine {
 			builder += "ERROR:Missing Parameters";
 		}
 		
-		builder += " )";
+		builder += ")";
 		
 		flag.input(builder);
 		if(subroutineBlock != null)
@@ -166,8 +166,4 @@ public class Subroutine {
 		}
 		 
 	}
-
-
-
-
 }
