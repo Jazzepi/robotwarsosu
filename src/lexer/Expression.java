@@ -80,8 +80,7 @@ public class Expression {
 	}
 	
 	public Expression(TextFile body) {
-	
-	
+		
 		first = new Term(body); //Process the first term
 
 		Token current = body.getNonWSToken(true);  //Pull out lookahead from possible ADDOP to see if there will be another term
