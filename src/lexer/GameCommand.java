@@ -65,7 +65,7 @@ public class GameCommand implements Statement {
 		{
 			if(!current.getText().equals("("))
 			{
-				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing GAMECOMMAND on line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 		
@@ -77,7 +77,7 @@ public class GameCommand implements Statement {
 		{
 			if(!current.getText().equals(")"))
 			{
-				System.out.println("ERROR: ) symbol expected after PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ) symbol expected after PARAMETERS while parsing GAMECOMMAND on line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 	}

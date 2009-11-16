@@ -7,7 +7,7 @@ public class GameCommand {
 	private String commandName;
 	private ArrayList<String> parameters = new ArrayList<String>();
 	
-	GameCommand(String commandName, ArrayList<String> parameters)
+	public GameCommand(String commandName, ArrayList<String> parameters)
 	{
 		this.commandName = commandName;
 		for(String element: parameters)
@@ -16,22 +16,22 @@ public class GameCommand {
 		}
 	}
 	
-	GameCommand(String commandName)
+	public GameCommand(String commandName)
 	{
 		this.commandName = commandName;
 	}
 	
-	GameCommand()
+	public GameCommand()
 	{
 		
 	}
 	
-	String getName()
+	public String getName()
 	{
 		return commandName;
 	}
 	
-	String[] getParameterList()
+	public String[] getParameterList()
 	{
 		String[] flag = new String[parameters.size()];
 		int i = 0;
@@ -43,12 +43,12 @@ public class GameCommand {
 		return flag;
 	}
 	
-	void setName(String newName)
+	public void setName(String newName)
 	{
 		commandName = newName;
 	}
 	
-	void addParameter(String parameterName)
+	public void addParameter(String parameterName)
 	{
 		parameters.add(parameterName);
 	}

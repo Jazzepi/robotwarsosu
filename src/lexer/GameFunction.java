@@ -62,7 +62,7 @@ public class GameFunction {
 		{
 			if(!current.getText().equals("("))
 			{
-				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + "found instead.");
+				System.out.println("ERROR: ( symbol expected before PARAMETERS while parsing GAMEFUNCTION on line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 			}
 		}
 		

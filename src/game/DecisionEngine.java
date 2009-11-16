@@ -15,7 +15,7 @@ public class DecisionEngine {
 	private int returnLocation;
 	private String returnValueIntoThisVar;
 
-	DecisionEngine(TextFile executionCode)
+	public DecisionEngine(TextFile executionCode)
 	{
 		this.executionCode = executionCode;
 		this.executionCode.reset();
@@ -51,7 +51,7 @@ public class DecisionEngine {
 		}
 	}
 
-	GameCommand getNextGameCommand()
+	public GameCommand getNextGameCommand()
 	{
 		int counter = 0;
 		boolean haveGameCommand = false;
@@ -358,7 +358,10 @@ public class DecisionEngine {
 				
 				//Parameter call list now stores all the variables that will be transferred into the subroutine call
 				//Grab the VAR just below it
-				
+				StringTokenizer smallTokenizer = new StringTokenizer(executionCode.getLine()," (),",true);
+				smallTokenizer.nextToken(); //VAR
+				smallTokenizer.nextToken(); // Space
+				returnValueIntoThisVar = smallTokenizer.nextToken(); //Variable ID of the variable that I want to store what I get from the subroutine call into
 				
 				//Jump to the subroutine call SUBROUTINE header line
 				executionCode.setRow(lineToGrabInfoFrom);
@@ -397,13 +400,23 @@ public class DecisionEngine {
 				{
 					System.out.println("RUNTIME ERROR: Call to subroutine " + routineToJumpTo + " has too few, or too many parameters.");
 				}
-				
-				
-				
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEFUNCTION,token))
 			{
-
+				String gameFuctionCommand = token; //Pull off the game function
+				st.nextToken(); //Pull off the (
+				ArrayList<String> gameFunctionArguements = new ArrayList<String>();
+				token = st.nextToken(); //Prime loop with either ) or a variable
+				
+				while (!token.equals(")"))
+				{
+					gameFunctionArguements.add(token);
+					token = st.nextToken();
+					if(token.equals(","))
+					{
+						token = st.nextToken();
+					}
+				}
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEORDER, token))
 			{
