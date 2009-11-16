@@ -1,0 +1,18 @@
+MAIN
+{
+	WHILE(x>a)
+	{
+		WHILE(x<a)
+		{
+			WHILE(5+3!=3)
+			{
+				WHILE(1==3)
+				{
+					
+				}
+			}
+		}
+	}
+
+
+}

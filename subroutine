@@ -1,0 +1,71 @@
+SUBROUTINE X (a,b,c)
+{
+	VAR x = 0;
+	WHILE(x>a)
+	{
+		IF(x<a)
+		{
+			IF(5+3!=3)
+			{
+				WHILE(1==3)
+				{
+					VAR x = 5;
+				}
+			}
+		}
+	}
+	RETURN x;
+}
+
+SUBROUTINE X ()
+{
+	VAR x = 0;
+	WHILE(x>a)
+	{
+		IF(x<a)
+		{
+			IF(5+3!=3)
+			{
+				WHILE(1==3)
+				{
+					VAR x = 5;
+				}
+				RETURN x;
+			}
+			RETURN x;
+		}
+		RETURN x;
+	}
+	RETURN x;
+}
+
+SUBROUTINE Z (a,b,c)
+{
+	VAR x = 0;
+
+	RETURN x;
+}
+
+MAIN
+{
+	WHILE(x>a)
+	{
+		IF(x<a)
+		{
+			IF(5+3!=3)
+			{
+				WHILE(1==3)
+				{
+					VAR x = 5;
+				}
+			}
+		}
+	}
+}
+
+SUBROUTINE \/\/Z (a,b,c)
+{
+	VAR x fwefwfesdf= 0;
+
+	RETURN x;
+}ssdfs

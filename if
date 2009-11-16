@@ -1,0 +1,21 @@
+MAIN
+{
+	VAR x = 5;
+	VAR a = x-3;
+	IF(x>a)
+	{
+		IF(x<a)
+		{
+		VAR x = 2;#!!!jfidsju9i3r;
+			IF(5+3!=3)
+			{
+				IF(1==3)
+				{
+					
+				}
+			}
+		}
+	}
+
+
+}
