@@ -3,21 +3,44 @@ SUBROUTINE compute (y,z)
 	VAR x = 4%3;
 	RETURN x;
 }
-
 SUBROUTINE computeNew9 (x,y)
 {
 	VAR x = 4%3;
 	RETURN x;
 }
-
 SUBROUTINE compute (p,q)
 {
-	VAR x = 4%3;
-	RETURN x;
+	IFELSE(x>3)
+	{
+		VAR x = 4+5;
+		VAR x = 4+5;
+	}
+	ELSE
+	{
+		WHILE(((4+x)) < (y*4+3))
+		{
+			IF(x==3)
+			{VAR x = 4+5;}
+		}
+			
+		IFELSE(x>3)
+		{
+			VAR x = 4+5;
+		}
+		ELSE
+		{
+			VAR x = 4+5+3;
+		}
+		
+		RETURN x;
+		VAR storage = CALL compute (y,z);
+		VAR z = isEnemyInRange (x);
+	}
 }
 
 MAIN
 {
+
 	WHILE(x>3)
 	{
 		VAR x = 4+5;

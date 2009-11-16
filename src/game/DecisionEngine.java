@@ -3,15 +3,17 @@ package game;
 import lexer.TextFile;
 import lexer.Token.TokenType;
 
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 public class DecisionEngine {
 
 	private int MAXEXECUTIONCYCLE = 1000;
 	private TextFile executionCode;
 	private HashMap<String, Integer> subroutineLocation = new HashMap<String, Integer>();
 	private HashMap<String, Integer> symbolTable = new HashMap<String, Integer>();
+	private ArrayList<String> parameterCallList = new ArrayList<String>();
 	private Integer retValue;
+	private int returnLocation;
+	private String returnValueIntoThisVar;
 
 	DecisionEngine(TextFile executionCode)
 	{
@@ -294,6 +296,7 @@ public class DecisionEngine {
 							String operator = tokenizedLine.nextToken();
 							tokenizedLine.nextToken(); //will be space
 							String secondRightSide = tokenizedLine.nextToken();
+							
 							if(operator.equals("+"))
 							{
 								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) + symbolTable.get(secondRightSide)));
@@ -332,7 +335,69 @@ public class DecisionEngine {
 			}
 			else if(token.equals("CALL"))
 			{
-
+				parameterCallList.clear();
+				st.nextToken(); // space
+				String routineToJumpTo = st.nextToken(); //Routine that we want to jump to
+				returnLocation = executionCode.getReport() + 2; //Place we want to return to
+				int lineToJumpTo = subroutineLocation.get(routineToJumpTo); //Line just below the SUBROUTINE entry
+				int lineToGrabInfoFrom = lineToJumpTo-1; //Line of the SUBROUTINE entry
+				st.nextToken();// (
+				String decider = st.nextToken(); //Potential first item in the 
+				
+				while(!decider.equals(")"))
+				{
+					parameterCallList.add(decider); //First parameter
+					decider = st.nextToken(); //either , or )
+					if(decider.equals(","))
+					{
+						decider = st.nextToken();
+					}
+				}
+				
+				//Parameter call list now stores all the variables that will be transferred into the subroutine call
+				//Grab the VAR just below it
+				
+				
+				//Jump to the subroutine call SUBROUTINE header line
+				executionCode.setRow(lineToGrabInfoFrom);
+				//Get that line of code
+				String callLineToken = executionCode.getLine(); 
+				//Put it into a tokenizer
+				StringTokenizer tokenizedCallLine = new StringTokenizer(callLineToken," (),",true);
+				//Read the parameter values out, and push the values into the subroutine's variables
+				tokenizedCallLine.nextToken(); //SUBROUTINE
+				tokenizedCallLine.nextToken(); // space
+				tokenizedCallLine.nextToken(); // subroutine ID
+				tokenizedCallLine.nextToken(); // space
+				tokenizedCallLine.nextToken(); // (
+				String currentCallTok = tokenizedCallLine.nextToken(); // either a parameter or )
+				
+				ArrayList<String> destinationParameters = new ArrayList<String>(); // List of parameters at the destination
+				
+				while (!currentCallTok.equals(")"))
+				{
+					destinationParameters.add(currentCallTok);
+					currentCallTok = tokenizedCallLine.nextToken();
+					if(currentCallTok.equals(","))
+					{
+						currentCallTok = tokenizedCallLine.nextToken();
+					}
+				}
+				
+				if(destinationParameters.size() == parameterCallList.size())
+				{
+					for(int i = 0; i < destinationParameters.size(); i++)
+					{
+						symbolTable.put(destinationParameters.get(i), symbolTable.get(parameterCallList.get(i)));
+					}
+				}
+				else
+				{
+					System.out.println("RUNTIME ERROR: Call to subroutine " + routineToJumpTo + " has too few, or too many parameters.");
+				}
+				
+				
+				
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEFUNCTION,token))
 			{

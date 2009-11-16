@@ -331,6 +331,17 @@ public class TextFile {
 	public void addToRow(int amount)
 	{
 		rowPointer -= amount;
+		posPointer = 0;
+	}
+	
+	/**
+	 * Set the row counter to a position indicated by amount.
+	 * @param amount
+	 */
+	public void setRow(int position)
+	{
+		rowPointer = position;
+		posPointer = 0;
 	}
 
 
