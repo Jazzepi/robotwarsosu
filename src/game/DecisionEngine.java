@@ -27,6 +27,10 @@ public class DecisionEngine {
 	 */
 	private TextFile executionCode;
 	/**
+	 * The gameworld this decision engine is running in. Used to calculate the results of GameFunctions
+	 */
+	private GameWorld executionEnviroment;
+	/**
 	 * Line location in the VMC of the spot just below the SUBROUTINE declartion
 	 */
 	private HashMap<String, Integer> subroutineLocation = new HashMap<String, Integer>();
@@ -96,6 +100,15 @@ public class DecisionEngine {
 		}
 	}
 
+	/**
+	 * Sets up a reference to the gameworld that this decision is running in.
+	 * @param reference Pointer to the gameworld this decision engine is running in.
+	 */
+	void getReferenceToGameworld(GameWorld reference)
+	{
+		executionEnviroment = reference;
+	}
+	
 	/**
 	 * @return Retrieves the next reachable Game Command from the execution code. If none can be reached in 1000 cycles, or the end of the VMC is reached
 	 * returns halt.
@@ -481,7 +494,7 @@ public class DecisionEngine {
 				smallTokenizer.nextToken(); //VAR
 				smallTokenizer.nextToken(); // Space
 				storeGameValueHere = smallTokenizer.nextToken(); //Variable ID of the variable that I want to store what I get from the gamefunction call into
-				symbolTable.put(storeGameValueHere, GameWorld.processGameFunction(gameFunctionArguements, gameFuctionCommand));
+				symbolTable.put(storeGameValueHere, executionEnviroment.processGameFunction(gameFunctionArguements, gameFuctionCommand));
 
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEORDER, token))

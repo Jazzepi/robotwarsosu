@@ -149,12 +149,14 @@ public class GameWorld {
 	}
 	
 	/**
-	 * Adds a robot to the game world in one of the four corners
+	 * Adds a robot to the game world in one of the four corners, and initializes the decision engine inside of the game world
 	 * @param robot Robot to be added
 	 * @param script VMC compiled script to run the robot
 	 */
 	void addRobot(Robot robot, DecisionEngine script)
 	{
+		script.getReferenceToGameworld(this);
+		
 		if(numberOfPlayers == 0)
 		{
 			playerPositions[numberOfPlayers] = new Coordinate(0,0);
@@ -227,7 +229,7 @@ public class GameWorld {
 	 * @param gameFunctionCallID Name of the game function to be called
 	 * @return Value representing the current 
 	 */
-	static int processGameFunction(ArrayList<String> parameters, String gameFunctionCallID)
+	int processGameFunction(ArrayList<String> parameters, String gameFunctionCallID)
 	{
 		return 1;
 	}
