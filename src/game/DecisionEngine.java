@@ -4,17 +4,57 @@ import lexer.TextFile;
 import lexer.Token.TokenType;
 import java.util.*;
 
+/**
+ * A decision engine navigates through the source code of a Robot Wars script that has been compiled into VMC.
+ * The primary purpose of the decision engine is to produce GameOrders for the Robot Wars {@link GameWorld} to
+ * execute on behalf of the robots controlled by said scripts. Each robot has its own decision engine, which is
+ * impregnated with code that has been compiled into VMC (Virtual Machine Code). The decision engine contains LITTLE TO NO error checking.
+ * <P>Infinite loops, calling a RETURN statement outside of a subroutine, using the same subroutine name more than once can all cause
+ * unrecoverable errors in the DecisionEngine's process.
+ * <P>A cap on infinite loops, called MAXEXECUTIONCYCLE is the number of times the decision engine will process through the VMC to find a game order. If the 
+ * MAXEXECUTIONCYCLE = 100, then the DecisionEngine can process roughly 100 IF loops before terminating and returning a HALT game order which
+ * indicates that either the end of the VMC has been reached, or the MAXEXECUTIONCYCLE has been. 
+ */
 public class DecisionEngine {
 
+	/**
+	 * Number of instructions the Decision Engine will process to find a game order before giving up and returning a HALT command indicating that the robot's
+	 * script is most likely stuck in an infinite loop.
+	 */ 
 	private int MAXEXECUTIONCYCLE = 1000;
+	/**
+	 * Compiled VMC created from source code, lineralized for execution
+	 */
 	private TextFile executionCode;
+	/**
+	 * Line location in the VMC of the spot just below the SUBROUTINE declartion
+	 */
 	private HashMap<String, Integer> subroutineLocation = new HashMap<String, Integer>();
+	/**
+	 *  Map of strings -> values where strings are variable symbols 
+	 */
 	private HashMap<String, Integer> symbolTable = new HashMap<String, Integer>();
+	/**
+	 * Call list for 
+	 */
 	private ArrayList<String> parameterCallList = new ArrayList<String>();
+	/**
+	 * Value returned by a SUBROUTINE call
+	 */
 	private Integer retValue;
+	/**
+	 * Location to return to after a RETURN call
+	 */
 	private int returnLocation;
-	private String returnValueIntoThisVar;
+	/**
+	 * Spot to store returning value from a function call
+	 */
+	private String storeGameValueHere;
 
+	/**
+	 * Constructor for a decision engine. Processes all the SUBROUTINES into a storage class. Sets execution to begin just below MAIN
+	 * @param executionCode source code compiled int VMC code
+	 */
 	public DecisionEngine(TextFile executionCode)
 	{
 		this.executionCode = executionCode;
@@ -22,6 +62,10 @@ public class DecisionEngine {
 		collectSubroutines(this.executionCode); //Have removed MAIN, at the line after it, begin processing
 	}
 
+	/**
+	 * Stores the location of all the subroutines into a map. 
+	 * @param executionCode source code compiled int VMC code
+	 */
 	private void collectSubroutines(TextFile executionCode) {
 		boolean stillProcessing = true;
 
@@ -52,6 +96,10 @@ public class DecisionEngine {
 		}
 	}
 
+	/**
+	 * @return Retrieves the next reachable Game Command from the execution code. If none can be reached in 1000 cycles, or the end of the VMC is reached
+	 * returns halt.
+	 */
 	public GameOperation getNextGameCommand()
 	{
 		int counter = 0;
@@ -62,11 +110,10 @@ public class DecisionEngine {
 		{
 			if(executionCode.isEndOfFile())
 			{
-				System.out.println("RUNTIME ERROR: Program halted!");
 				extractedGameCommand = new GameOperation("halt");
 				return extractedGameCommand;
 			}
-			
+
 			String current = executionCode.getLine();
 			StringTokenizer st = new StringTokenizer(current," (),",true);
 			String token = st.nextToken();
@@ -257,11 +304,11 @@ public class DecisionEngine {
 				token = st.nextToken(); //Gets the variable to return 
 				retValue = symbolTable.get(token); //Put the value from the variable into the return register
 				executionCode.setRow(returnLocation-1); //Return to the location where execution is suppose to begin
-				symbolTable.put(returnValueIntoThisVar, retValue); //Put the value that was calculated during the subroutine into the VAR <variable> following the CALL command
+				symbolTable.put(storeGameValueHere, retValue); //Put the value that was calculated during the subroutine into the VAR <variable> following the CALL command
 			}
 			else if(token.startsWith("#"))
 			{
-				
+
 				boolean haveFoundVar = false;
 				String thisLine;
 				String runningTotalVariable = token;
@@ -269,7 +316,7 @@ public class DecisionEngine {
 				st.nextToken(); //=
 				st.nextToken(); //Space
 				String firstRightSide = st.nextToken(); //Either a literal, or a variable
-				
+
 				if(TokenType.matchesToken(TokenType.DIGITS, firstRightSide))
 				{
 					symbolTable.put(runningTotalVariable, Integer.parseInt(firstRightSide));
@@ -278,7 +325,7 @@ public class DecisionEngine {
 				{
 					symbolTable.put(runningTotalVariable, symbolTable.get(firstRightSide));
 				}
-				
+
 				while(!haveFoundVar)
 				{
 					thisLine = executionCode.getLine();
@@ -298,14 +345,14 @@ public class DecisionEngine {
 						expToken = tokenizedLine.nextToken(); //=
 						expToken = tokenizedLine.nextToken(); //Space
 						firstRightSide = tokenizedLine.nextToken(); //#3, 3, or variable
-						
+
 						if(tokenizedLine.hasMoreTokens())
 						{
 							tokenizedLine.nextToken(); //will be space
 							String operator = tokenizedLine.nextToken();
 							tokenizedLine.nextToken(); //will be space
 							String secondRightSide = tokenizedLine.nextToken();
-							
+
 							if(operator.equals("+"))
 							{
 								symbolTable.put(runningTotalVariable, (symbolTable.get(firstRightSide) + symbolTable.get(secondRightSide)));
@@ -352,7 +399,7 @@ public class DecisionEngine {
 				int lineToGrabInfoFrom = lineToJumpTo-1; //Line of the SUBROUTINE entry
 				st.nextToken();// (
 				String decider = st.nextToken(); //Potential first item in the 
-				
+
 				while(!decider.equals(")"))
 				{
 					parameterCallList.add(decider); //First parameter
@@ -362,14 +409,14 @@ public class DecisionEngine {
 						decider = st.nextToken();
 					}
 				}
-				
+
 				//Parameter call list now stores all the variables that will be transferred into the subroutine call
 				//Grab the VAR just below it
 				StringTokenizer smallTokenizer = new StringTokenizer(executionCode.getLine()," (),",true);
 				smallTokenizer.nextToken(); //VAR
 				smallTokenizer.nextToken(); // Space
-				returnValueIntoThisVar = smallTokenizer.nextToken(); //Variable ID of the variable that I want to store what I get from the subroutine call into
-				
+				storeGameValueHere = smallTokenizer.nextToken(); //Variable ID of the variable that I want to store what I get from the subroutine call into
+
 				//Jump to the subroutine call SUBROUTINE header line
 				executionCode.setRow(lineToGrabInfoFrom);
 				//Get that line of code
@@ -383,9 +430,9 @@ public class DecisionEngine {
 				tokenizedCallLine.nextToken(); // space
 				tokenizedCallLine.nextToken(); // (
 				String currentCallTok = tokenizedCallLine.nextToken(); // either a parameter or )
-				
+
 				ArrayList<String> destinationParameters = new ArrayList<String>(); // List of parameters at the destination
-				
+
 				while (!currentCallTok.equals(")"))
 				{
 					destinationParameters.add(currentCallTok);
@@ -395,7 +442,7 @@ public class DecisionEngine {
 						currentCallTok = tokenizedCallLine.nextToken();
 					}
 				}
-				
+
 				if(destinationParameters.size() == parameterCallList.size())
 				{
 					for(int i = 0; i < destinationParameters.size(); i++)
@@ -410,11 +457,14 @@ public class DecisionEngine {
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEFUNCTION,token))
 			{
+				//This function has not been completely implemented. A hook into the gameworld needs to be created to process these gamefunctions
+				//To return meaningful values. Right now gamefunctions all return the value of 1
+
 				String gameFuctionCommand = token; //Pull off the game function
 				st.nextToken(); //Pull off the (
 				ArrayList<String> gameFunctionArguements = new ArrayList<String>();
 				token = st.nextToken(); //Prime loop with either ) or a variable
-				
+
 				while (!token.equals(")"))
 				{
 					gameFunctionArguements.add(token);
@@ -424,6 +474,15 @@ public class DecisionEngine {
 						token = st.nextToken();
 					}
 				}
+
+				//gameFunctionArguements now stores all the variables that will be transferred into the gamefunction call
+				//Grab the VAR just below it
+				StringTokenizer smallTokenizer = new StringTokenizer(executionCode.getLine()," (),",true);
+				smallTokenizer.nextToken(); //VAR
+				smallTokenizer.nextToken(); // Space
+				storeGameValueHere = smallTokenizer.nextToken(); //Variable ID of the variable that I want to store what I get from the gamefunction call into
+				symbolTable.put(storeGameValueHere, GameWorld.processGameFunction(gameFunctionArguements, gameFuctionCommand));
+
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEORDER, token))
 			{
@@ -450,7 +509,7 @@ public class DecisionEngine {
 			}
 			else if(token.equals("JUMP"))
 			{
-				
+
 				String jumpAmount = st.nextToken(); // Space
 				jumpAmount = st.nextToken(); //
 				executionCode.addToRow(Integer.parseInt(jumpAmount)- 1);

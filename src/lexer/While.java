@@ -2,13 +2,30 @@ package lexer;
 
 import lexer.Token.TokenType;
 
+/**
+ *  A WHILE statement consisting of an {@link Expression} CONDITION {@link Expression} triplet where CONDITION is defined in {@link Token}
+ *  Also contains the while {@link Block} of code. 
+ * @author Michael Pinnegar
+ */
 public class While implements Statement {
 
+	/**
+	 * Left and right expressions centered around a single CONDITION
+	 */
 	private Expression leftExp,rightExp;
+	/**
+	 * Comparison operator used between the left and right expression
+	 */
 	private String condition;
+	/**
+	 * Block of code to be executed if the expression operator expression triplet evaluate to true
+	 */
 	private Block whileBody;
 	
 	@Override
+	/**
+	 * 
+	 */
 	public void compile(TextFile flag) {
 		int spotForWhileToJumpBackTo = flag.getReport();
 		
@@ -41,6 +58,9 @@ public class While implements Statement {
 	}
 	
 	@Override
+	/**
+	 * 
+	 */
 	public void print() {
 		System.out.print("WHILE (");
 		leftExp.print();
@@ -59,6 +79,10 @@ public class While implements Statement {
 	}
 
 	
+	/**
+	 * This constructor builds a while statement from the source code found in body.
+	 * @param body source code
+	 */
 	public While(TextFile body) {
 
 		leftExp = new Expression(body);

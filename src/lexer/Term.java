@@ -2,6 +2,12 @@ package lexer;
 
 import java.util.ArrayList;
 
+/**
+ * A term consisting of a single {@link Factor}, followed by zero or more MULTOP FACTOR pairs.
+ * MULTOP = * OR / OR % 
+ * @author Michael Pinnegar
+ *
+ */
 public class Term {
 	
 	/**
@@ -15,10 +21,16 @@ public class Term {
 	private ArrayList<String> multops = new ArrayList<String>();
 
 	/**
-	 * Very first factor. Has no multop pair.
+	 * Very first factor. Has no multop pairing.
 	 */
 	private Factor first = null;
 	
+	/**
+	 * Adds the VMC representation of this term to the compiled code.
+	 * Returns the integer numbering of the term's node in the tree structure. 
+	 * @param flag unfinished compiled code
+	 * @return term's node numbering
+	 */
 	public int compile(TextFile flag) {
 
 		Expression.incrementCounter();
@@ -49,7 +61,11 @@ public class Term {
 		return thisM;
 		
 	}
-	
+
+	/**
+	 * Prints out the elements of this term as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		if(first != null)
 		{
@@ -69,6 +85,10 @@ public class Term {
 		}
 	}
 	
+	/**
+	 * This constructor builds a term from the source code found in body.
+	 * @param body source code
+	 */
 	public Term(TextFile body)
 	{
 
@@ -85,8 +105,4 @@ public class Term {
 			current = body.getNonWSToken(true); //Check to see if there is another [multop->factor] pair to process
 		}
 	}
-
-
-
-
 }

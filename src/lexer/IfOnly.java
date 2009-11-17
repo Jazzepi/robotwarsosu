@@ -6,7 +6,6 @@ import lexer.Token.TokenType;
  *  An IF statement consisting of an {@link Expression} CONDITION {@link Expression} triplet where CONDITION is defined in {@link Token}
  *  Also contains the if {@link Block} of code. 
  * @author Michael Pinnegar
- *
  */
 public class IfOnly implements Statement {
 

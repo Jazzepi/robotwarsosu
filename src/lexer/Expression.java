@@ -3,9 +3,9 @@ package lexer;
 import java.util.ArrayList;
 
 /**
- * An expression consisting of a single term, followed by zero or more ADDOP TERM pairs.
+ * An expression consisting of a single {@link Term}, followed by zero or more ADDOP TERM pairs.
+ * ADDOP is + or -
  * @author Michael Pinnegar
- * @see Term
  *
  */
 public class Expression {

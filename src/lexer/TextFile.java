@@ -105,35 +105,13 @@ public class TextFile {
 		rowPointer += 1;
 	}
 
-	public String getCharacter()
-	{
-		String character;
-		while(!isEndOfFile() && posPointer > (body.get(rowPointer).length()-1))
-		{
-			rowPointer++;
-			posPointer = 0;
-		}
-
-		if(!isEndOfFile())
-		{
-			posPointer++;
-		}
-
-
-		if(!isEndOfFile())
-		{
-			posPointer--;
-			character = body.get(rowPointer).substring(posPointer, posPointer+1);
-			posPointer++;
-		}
-		else
-		{
-			character = "";
-		}
-
-		return character; 
-	}
-
+	/**
+	 * Returns the next non-whitespace {@link Token} from the file. The token is still there, but the lookAhead boolean
+	 * determines of the internal pointer is incremented past it.
+	 * 
+	 * @param lookAhead If true, token is left in the textfile
+	 * @return next non-whitespace token .Null if the textfile is empty.
+	 */
 	public Token getNonWSToken(boolean lookAhead)
 	{
 		Token flag = null;
@@ -168,6 +146,12 @@ public class TextFile {
 		return flag;
 	}
 	
+	/**
+	 * Fetches the next {@link Token} from the textFile. Will return white space tokens. If lookAhead is true, the textfile's internal pointers are left unchanged, allowing the same token to be retrieved multiple times.
+	 * 
+	 * @param isLookAhead If true, an internal pointer is not incremented past the token.
+	 * @return The next token in the text file. Null if the textfile is empty.
+	 */
 	public Token getToken(boolean isLookAhead)
 	{
 
@@ -325,7 +309,7 @@ public class TextFile {
 	}
 	
 	/**
-	 * Adds some amount to the row counter. Useful for backing up.
+	 * Adds some amount to the row counter.
 	 * @param amount
 	 */
 	public void addToRow(int amount)

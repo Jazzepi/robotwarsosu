@@ -43,7 +43,7 @@ public class MainProgram {
 	
 	/**
 	 * This constructor builds an MAIN PROGRAM from the source code found in body.
-	 * @param body unfinished source code
+	 * @param body source code
 	 */
 	public MainProgram(TextFile body) {
 

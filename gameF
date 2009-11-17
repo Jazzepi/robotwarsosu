@@ -1,0 +1,8 @@
+MAIN
+{
+	VAR x = isEnemyInRange(x);
+	IF(x==1)
+	{
+		selfDestruct(x);
+	}
+}

@@ -1,11 +1,33 @@
 package game;
 
+import java.util.ArrayList;
+
+/**
+ * GameWorld contains all the elements necessary to run a single game of Robot Wars. The game world tracks the position of the robots on the game grid,
+ * verifies the validity of actions issued (two robots can not occupy the same spot), tracks points per player, keeps track of the current turn, and otherwise maintains
+ * all the states necessary for a robust gaming environment.  
+ * @author Michael Pinnegar
+ *
+ */
 public class GameWorld {
 
+	/**
+	 * Inner class used to store x,y coordinates as a pair
+	 * @author Michael Pinnegar
+	 *
+	 */
 	private class Coordinate
 	{
+		/**
+		 * Coordinates x and y
+		 */
 		private int x,y;
 
+		/**
+		 * Comparison equals comparison for two coordinates. If they're both the same, returns true
+		 * @param aThat Second coordinate pair to compare to the original
+		 * @return If they're both the same, returns true
+		 */
 		public boolean equals(Coordinate aThat) {
 			if(this.getX() == aThat.getX() && this.getX() == aThat.getX())
 			{
@@ -17,43 +39,98 @@ public class GameWorld {
 			}
 		}
 
+		/**
+		 * Constructor with known x, y to store in the pair
+		 * @param x x to be stored
+		 * @param y y to be stored
+		 */
 		Coordinate(int x,int y)
 		{
 			this.x = x;
 			this.y = y;
 		}
 
+		/**
+		 * 
+		 * @return x value of xy pair
+		 */
 		int getX()
 		{
 			return x;
 		}
 
+		/**
+		 * 
+		 * @return y value of xy pair
+		 */
 		int getY()
 		{
 			return y;
 		}
 
+		/**
+		 * Sets the x value of the xy pair to x
+		 * @param x
+		 */
 		void setX(int x)
 		{
 			this.x = x;
 		}
-
+		
+		/**
+		 * Sets the y value of the xy pair to y
+		 * @param y
+		 */
 		void setY(int y)
 		{
 			this.y = y;
 		}
 	}
 
-
-	private int numberOfPlayers, xSize, ySize;
+	/**
+	 * Number of players in the game
+	 */
+	private int numberOfPlayers;
+	/**
+	 * size of the x dimension of the gaming board
+	 */
+	private int xSize;
+	/**
+	 * size of the y dimension of the gaming board
+	 */
+	private int ySize;
+	/**
+	 * Default board x size constant
+	 */
 	private final int DEFAULTBOARDSIZEX = 8;
+	/**
+	 * Default board y size constant
+	 */
 	private final int DEFAULTBOARDSIZEY = 8;
+	/**
+	 * Default turn count.
+	 */
 	private final int DEFAULTMAXTURNCOUNT = 50;
 	private int turnCounter, maxTurnCount;
+	/**
+	 * Position of each player, up to 4, on the board
+	 */
 	private Coordinate[] playerPositions = new Coordinate[4];
+	/**
+	 * Robot for each player
+	 */
 	private Robot[] playerRobots = new Robot[4];
+	/**
+	 * Decision engine for each player
+	 */
 	private DecisionEngine[] playerScripts = new DecisionEngine[4];
 
+	/**
+	 * Creates a game world with a defined size and a number of turns till the game ends
+	 * @param boardSizeX X size
+	 * @param boardSizeY Y size
+	 * @param maxTurnCount number of turns till the game ends
+	 */
 	GameWorld(int boardSizeX, int boardSizeY, int maxTurnCount)
 	{
 		xSize = boardSizeX;
@@ -61,13 +138,21 @@ public class GameWorld {
 		this.maxTurnCount = maxTurnCount;
 	}
 
+	/**
+	 * Creates a default game world
+	 */
 	GameWorld()
 	{
 		xSize = DEFAULTBOARDSIZEX;
 		ySize = DEFAULTBOARDSIZEY;
 		maxTurnCount = DEFAULTMAXTURNCOUNT;
 	}
-
+	
+	/**
+	 * Adds a robot to the game world in one of the four corners
+	 * @param robot Robot to be added
+	 * @param script VMC compiled script to run the robot
+	 */
 	void addRobot(Robot robot, DecisionEngine script)
 	{
 		if(numberOfPlayers == 0)
@@ -136,6 +221,18 @@ public class GameWorld {
 	}
 
 	/**
+	 * Takes in a game function, it's parameters, and returns an integer representing the state of the game world.
+	 * 
+	 * @param parameters Parameter list for the game world 
+	 * @param gameFunctionCallID Name of the game function to be called
+	 * @return Value representing the current 
+	 */
+	static int processGameFunction(ArrayList<String> parameters, String gameFunctionCallID)
+	{
+		return 1;
+	}
+	
+	/**
 	 * Tells which player is at a given location. Returns -1 if there is no player there.
 	 * @param location Location to be checked for a player
 	 * @return 0-3 if there is a player, -1 if there is not
@@ -153,6 +250,12 @@ public class GameWorld {
 		return -1;
 	}
 
+	/**
+	 * Helper function that calculates the x-y position of a spot in a given direction
+	 * @param currentPos Base position that the new one will be calculated from
+	 * @param moveTo Direction that the new position will be in relative to the base position
+	 * @return Coordinates with XY representing the new spot. Null if that spot is illegal.
+	 */
 	private Coordinate calcNewCoordinatesOneSpotAway(Coordinate currentPos, CardinalDirections moveTo)
 	{
 		Coordinate flag = new Coordinate(currentPos.getX(), currentPos.getY());

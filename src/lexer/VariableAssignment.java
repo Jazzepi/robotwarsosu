@@ -2,15 +2,40 @@ package lexer;
 
 import lexer.Token.TokenType;	
 
+/**
+ * An variable assignment consisting of the variable a given value is to be saved to.
+ * <p>As well as the {@link Expression} OR {@link GameFunction} OR a {@link Subroutine} that will generate the given value to be saved. 
+ * @author Michael Pinnegar
+ *
+ */
 public class VariableAssignment implements Statement {
 
+	/**
+	 * Variable the given value is to be saved to.
+	 */
 	private String leftSideVar;
+	/**
+	 * Right sided expression that will create a value to save into leftSidedVar
+	 */
 	private Expression expression;
+	/**
+	 * ID of a subroutine that is being called to generate a value that will be saved in leftSideVar
+	 */
 	private String rightSidedFunctionCallID;
+	/**
+	 * GameFunction is being called to generate a value that will be saved in leftSideVar
+	 */
 	private GameFunction gameFunction;
+	/**
+	 * Parameters of a subroutine call
+	 */
 	private Parameters rightSidedFunctionCallParameters;
 	
 	@Override
+	/**
+	 * Adds the VMC representation of this variable assignment to the compiled code. 
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 		String builder = new String();
 		
@@ -37,17 +62,7 @@ public class VariableAssignment implements Statement {
 			}
 			
 			builder += (")");
-			flag.input(builder);
-//			Subroutine temp = Routine.fetchSubroutine(rightSidedFunctionCallID);
-//			if(temp != null)
-//			{
-//				Routine.fetchSubroutine(rightSidedFunctionCallID).compile(flag);
-//			}
-//			else
-//			{
-//				flag.input("ERROR:Missing Subroutine");
-//			}
-			
+			flag.input(builder);			
 		}
 		else
 		{
@@ -71,6 +86,10 @@ public class VariableAssignment implements Statement {
 	}
 	
 	@Override
+	/**
+	 * Prints out the elements of this variable assignment as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		
 		System.out.print("VAR ");
@@ -115,6 +134,10 @@ public class VariableAssignment implements Statement {
 		System.out.print(";");
 	}
 	
+	/**
+	 * This constructor builds a term from the source code found in body.
+	 * @param body source code
+	 */
 	public VariableAssignment(TextFile body) {
 		
 		Token current = body.getNonWSToken(false);

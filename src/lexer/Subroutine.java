@@ -25,7 +25,10 @@ public class Subroutine {
 	 */
 	private Block subroutineBlock;
 	
-	
+	/**
+	 * Adds the VMC representation of this SUBROUTINE block of code to the compiled code.
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 		
 		String builder = new String("SUBROUTINE "); 
@@ -66,6 +69,11 @@ public class Subroutine {
 		}
 	}
 	
+	/**
+	 * 	
+	 * Prints out this SUBROUTINE as it was taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		System.out.print("SUBROUTINE ");
 		if(methodName != null)
@@ -104,6 +112,10 @@ public class Subroutine {
 		System.out.println();
 	}
 	
+	/**
+ 	 * This constructor builds a SUBROUTINE PROGRAM from the source code found in body.
+	 * @param body source code
+	 */
 	public Subroutine(TextFile body) {
 		
 		Token current = body.getNonWSToken(false);
