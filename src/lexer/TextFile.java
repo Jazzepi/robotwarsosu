@@ -330,7 +330,7 @@ public class TextFile {
 	 */
 	public void addToRow(int amount)
 	{
-		rowPointer -= amount;
+		rowPointer += amount;
 		posPointer = 0;
 	}
 	
@@ -407,6 +407,10 @@ public class TextFile {
 			return true;
 		}
 		else if(body.size() - 1 == rowPointer  && body.get(rowPointer).length() == posPointer) //If the file isn't empty, is the horizontal marker too far?
+		{
+			return true;
+		}
+		else if(rowPointer > body.size() - 1 )
 		{
 			return true;
 		}

@@ -2,12 +2,12 @@ package game;
 
 import java.util.ArrayList;
 
-public class GameCommand {
+public class GameOperation {
 	
 	private String commandName;
 	private ArrayList<String> parameters = new ArrayList<String>();
 	
-	public GameCommand(String commandName, ArrayList<String> parameters)
+	public GameOperation(String commandName, ArrayList<String> parameters)
 	{
 		this.commandName = commandName;
 		for(String element: parameters)
@@ -16,12 +16,12 @@ public class GameCommand {
 		}
 	}
 	
-	public GameCommand(String commandName)
+	public GameOperation(String commandName)
 	{
 		this.commandName = commandName;
 	}
 	
-	public GameCommand()
+	public GameOperation()
 	{
 		
 	}

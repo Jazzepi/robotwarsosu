@@ -2,11 +2,24 @@ package lexer;
 
 import lexer.Token.TokenType;
 
+/**
+ * A RETURN statement consisting of the variable that is to be used as the return value.
+ * @author Michael Pinnegar
+ *
+ */
 public class ReturnStatement implements Statement {
 
-	String variableName = null;
+	/**
+	 * Name of the variable to be used as the return value.
+	 */
+	private String variableName = null;
 
 	@Override
+	/**
+	 * Adds the VMC representation of this RETURN to the compiled code. 
+	 * 
+	 * @param flag source code
+	 */
 	public void compile(TextFile flag) {
 		String builder = new String("RETURN ");
 
@@ -25,6 +38,10 @@ public class ReturnStatement implements Statement {
 	}
 	
 	@Override
+	/**
+	 * Prints out the elements of this RETURN as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 
 		System.out.print("RETURN ");
@@ -41,6 +58,10 @@ public class ReturnStatement implements Statement {
 		System.out.print(";");
 	}
 
+	/**
+	 * This constructor builds a RETURN from the source code found in body.
+	 * @param body source code
+	 */
 	public ReturnStatement(TextFile body) {
 
 		Token current = body.getNonWSToken(false); //get variable name

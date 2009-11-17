@@ -4,9 +4,9 @@ import lexer.Token.TokenType;
 
 public class While implements Statement {
 
-	Expression leftExp,rightExp;
-	String condition;
-	Block whileBody;
+	private Expression leftExp,rightExp;
+	private String condition;
+	private Block whileBody;
 	
 	@Override
 	public void compile(TextFile flag) {

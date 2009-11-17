@@ -2,13 +2,32 @@ package lexer;
 
 import lexer.Token.TokenType;
 
+/**
+ *  An IF statement consisting of an {@link Expression} CONDITION {@link Expression} triplet where CONDITION is defined in {@link Token}
+ *  Also contains the if {@link Block} of code. 
+ * @author Michael Pinnegar
+ *
+ */
 public class IfOnly implements Statement {
 
-	Expression leftExp, rightExp;
-	String condition;
-	Block ifBody;
+	/**
+	 * Left and right expressions centered around a single CONDITION
+	 */
+	private Expression leftExp, rightExp;
+	/**
+	 * Comparison operator used between the left and right expression
+	 */
+	private String condition;
+	/**
+	 * Block of code to be executed if the expression operator expression triplet evaluate to true
+	 */
+	private Block ifBody;
 	
 	@Override
+	/**
+	 * Adds the VMC representation of this if statement to the compiled code. 
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 		
 		flag.input("LEFTEXPRESSION");
@@ -31,6 +50,10 @@ public class IfOnly implements Statement {
 	}
 	
 	@Override
+	/**
+	 * Prints out the elements of this if statement as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		System.out.print("IF (");
 		leftExp.print();
@@ -48,6 +71,10 @@ public class IfOnly implements Statement {
 		System.out.print("}");
 	}
 	
+	/**
+	 * This constructor builds an if statement from the source code found in body.
+	 * @param body source code
+	 */
 	public IfOnly(TextFile body)
 	{
 		

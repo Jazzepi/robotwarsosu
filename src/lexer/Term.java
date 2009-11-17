@@ -7,17 +7,17 @@ public class Term {
 	/**
 	 * List of factors. Goes [MULTOP->FACTOR] in pairs.
 	 */
-	ArrayList<Factor> factors = new ArrayList<Factor>();
+	private ArrayList<Factor> factors = new ArrayList<Factor>();
 
 	/**
 	 * List of multops. Goes [MULTOP->FACTOR] in pairs. * / % are multops
 	 */
-	ArrayList<String> multops = new ArrayList<String>();
+	private ArrayList<String> multops = new ArrayList<String>();
 
 	/**
 	 * Very first factor. Has no multop pair.
 	 */
-	Factor first = null;
+	private Factor first = null;
 	
 	public int compile(TextFile flag) {
 

@@ -2,12 +2,31 @@ package lexer;
 
 import lexer.Token.TokenType;
 
+/**
+ *  An IFELSE consisting of an {@link Expression} CONDITION {@link Expression} triplet where CONDITION is defined in {@link Token}
+ *  Also contains the if {@link Block} and else {@link Block} of code. 
+ * @author Michael Pinnegar
+ *
+ */
 public class IfElse implements Statement {
-	Expression leftExp, rightExp;
-	String condition;
-	Block ifBody,elseBody;
+	/**
+	 * Left and right expressions centered around a single CONDITION
+	 */
+	private Expression leftExp, rightExp;
+	/**
+	 * Comparison operator used between the left and right expression
+	 */
+	private String condition;
+	/**
+	 * the first and second {@link Block} of the if-else ladder
+	 */
+	private Block ifBody,elseBody;
 
 	@Override
+	/**
+	 * Adds the VMC representation of this if-else ladder to the compiled code. 
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 
 		flag.input("LEFTEXPRESSION");
@@ -24,7 +43,6 @@ public class IfElse implements Statement {
 
 		if(condition != null)
 		{
-			ifBody.compile(flag);
 			flag.insertLine(spotToInputIFJUMP, "IFELSE " + Token.NegateCondition(condition) + " JUMP " + (ifBlockSize + 2));
 			flag.insertLine(spotToInputELSEJUMP, "JUMP " + (flag.getReport() - spotToInputELSEJUMP + 1));
 		}
@@ -38,6 +56,10 @@ public class IfElse implements Statement {
 
 
 	@Override
+	/**
+	 * Prints out the elements of this if-else ladder as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		System.out.print("IFELSE (");
 		leftExp.print();
@@ -58,6 +80,10 @@ public class IfElse implements Statement {
 	}
 
 
+	/**
+	 * This constructor builds an if-else ladder from the source code found in body.
+	 * @param body source code
+	 */
 	public IfElse(TextFile body) {
 
 		leftExp = new Expression(body);

@@ -1,5 +1,33 @@
 MAIN
 {
-	VAR x = 5 + 4;
-	selfDestruct(x);
+	WHILE(1==1)
+	{
+		VAR x = 3;
+		WHILE(x<5)
+		{
+			VAR x = x + 1;
+			selfDestruct(getMeTwice);
+		}
+		selfDestruct(az);
+		
+		VAR x = x - 1;
+		VAR x = x - 1;
+		IF(x<4)
+		{
+			VAR x = x+5;
+			selfDestruct(a);
+			IF(x==8)
+			{
+				VAR x = 0-9;
+				VAR y = 0-10;
+				selfDestruct(b);
+				IF(x<y)
+				{
+					VAR x = 5+3;
+					selfDestruct(c);
+				}
+			}
+		}
+	selfDestruct(q);
+	}
 }

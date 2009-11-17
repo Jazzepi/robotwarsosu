@@ -3,26 +3,28 @@ package lexer;
 
 import lexer.Token.TokenType;
 
+/**
+ *  A SUBROUTINE consisting of the subroutine's IDENTIFIER as defined by {@link Token} and it's parameter list
+ *  Also contains the subroutine's {@link Block} of code. All subroutines MUST contain a
+ *  RETURN x; statement where x is some defined variable. 
+ * @author Michael Pinnegar
+ *
+ */
 public class Subroutine {
 
-	String methodName; 
-	Parameters parameters;
-	Block subroutineBlock;
+	/**
+	 * IDENTIFIER of the subroutine
+	 */
+	private String methodName; 
+	/**
+	 * Subroutine's parameters
+	 */
+	private Parameters parameters;
+	/**
+	 * The subroutine's block of code
+	 */
+	private Block subroutineBlock;
 	
-	String fetchName()
-	{
-		return methodName;
-	}
-	
-	Block fetchBlock()
-	{
-		return subroutineBlock;
-	}
-	
-	Parameters fetchParameters()
-	{
-		return parameters;
-	}
 	
 	public void compile(TextFile flag) {
 		

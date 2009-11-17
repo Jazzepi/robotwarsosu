@@ -1,0 +1,23 @@
+MAIN
+{
+	WHILE(1==1)
+	{
+			
+	}
+	VAR x = 0;
+	WHILE(x!=10)
+	{
+		VAR x = x +1;
+		selfDestruct(seeMe10Times);
+	}
+
+	IFELSE(x==10)
+	{
+		VAR y = 5;
+		
+	}
+	ELSE
+	{
+		VAR x = 5;
+	}
+}

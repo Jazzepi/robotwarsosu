@@ -1,7 +1,7 @@
 package lexer;
 
 import game.DecisionEngine;
-import game.GameCommand;
+import game.GameOperation;
 
 import java.io.*;
 
@@ -33,8 +33,20 @@ public class Start {
 		compilation.display();
 		
 		DecisionEngine test = new DecisionEngine(compilation);
-		GameCommand tempCommand = test.getNextGameCommand();
-		System.out.println(tempCommand.getName());
+		System.out.println("*****************");
+		
+		for(int i = 0; i<20; i++)
+		{
+			GameOperation tempCommand = test.getNextGameCommand();
+			System.out.println(tempCommand.getName());
+			String[] temp = tempCommand.getParameterList();
+			for(String element : temp)
+			{
+				System.out.println(element);
+			}
+		}
+		
+
 		
 //		while(!sFile.isEndOfFile())
 //		{

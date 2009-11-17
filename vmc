@@ -1,4 +1,4 @@
-SUBROUTINE compute (y,z)
+SUBROUTINE compute (param,z)
 {
 	VAR x = 4%3;
 	RETURN x;
@@ -8,7 +8,7 @@ SUBROUTINE computeNew9 (x,y)
 	VAR x = 4%3;
 	RETURN x;
 }
-SUBROUTINE compute (p,q)
+SUBROUTINE computer (p,q)
 {
 	IFELSE(x>3)
 	{
@@ -40,8 +40,8 @@ SUBROUTINE compute (p,q)
 
 MAIN
 {
-
-	WHILE(x>3)
+	VAR x = 0-100;
+	WHILE(x<3)
 	{
 		VAR x = 4+5;
 	}
@@ -57,9 +57,11 @@ MAIN
 
 	VAR x = 4+5;
 	VAR x = 4+5;
-	VAR x = 4/3/2/1;
-	VAR x = (4+x)/(y*4+3);
-	RETURN x;
-	VAR storage = CALL compute (y,z);
+	VAR y = 4/3/2/1;
+	VAR z = (4+x)/(y*4+3);
+	skip();
+	skip(x);
+	skip(x,y,z);
+	VAR storage = CALL computer (y,z);
 	VAR z = isEnemyInRange (x);
 }

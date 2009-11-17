@@ -2,35 +2,59 @@ package lexer;
 
 import java.util.ArrayList;
 
+/**
+ * An expression consisting of a single term, followed by zero or more ADDOP TERM pairs.
+ * @author Michael Pinnegar
+ * @see Term
+ *
+ */
 public class Expression {
 
 	/**
-	 * List of terms. Goes [ADDOP->TERM] in pairs.
+	 * List of {@link Term}. Goes [ADDOP->TERM] in pairs.
 	 */
-	ArrayList<Term> terms = new ArrayList<Term>();
+	private ArrayList<Term> terms = new ArrayList<Term>();
 	
 	/**
-	 * List of addops. Goes [ADDOP->TERM] in pairs.
+	 * List of addops (+/-). Goes [ADDOP->TERM] in pairs.
 	 */
-	ArrayList<String> addops = new ArrayList<String>();
+	private ArrayList<String> addops = new ArrayList<String>();
 	
 	/**
 	 * Very first term. Has no addop pair.
 	 */
-	Term first = null;
+	private Term first = null;
 	
+	/**
+	 * Counter used to uniquely label the nodes of the tree representation of the source code. Node
+	 * numbers are used in the linearization of the tree's expressions, where it is converted into
+	 * source code.
+	 */
 	private static int counter = 0;
 	
+	/**
+	 * Adds one to the counter.
+	 */
 	public static void incrementCounter()
 	{
 		counter++;
 	}
 	
+	/**
+	 * Retrieves the value of the counter.
+	 * @return counter value
+	 */
 	public static int getCounterVal()
 	{
 		return counter;
 	}
 	
+	/**
+	 * Adds the VMC representation of this expression to the compiled code.
+	 * Returns the integer numbering of the expression's node in the tree structure. 
+	 * @param flag unfinished compiled code
+	 * @return expression's node numbering
+	 */
 	public int compile(TextFile flag) {
 		
 		Expression.incrementCounter();
@@ -60,6 +84,10 @@ public class Expression {
 		return thisM;
 	}
 	
+	/**
+	 * Prints out the elements of this expression as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		if(first != null)
 		{
@@ -79,6 +107,10 @@ public class Expression {
 		}
 	}
 	
+	/**
+	 * This constructor builds an expression from the source code found in body.
+	 * @param body source code
+	 */
 	public Expression(TextFile body) {
 		
 		first = new Term(body); //Process the first term

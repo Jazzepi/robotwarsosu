@@ -2,12 +2,27 @@ package lexer;
 
 import java.util.ArrayList;
 
+/**
+ * A Routine is an entire Robot Wars program represented by a list of {@link Subroutine}s and a singleton {@link MainProgram}
+ * @author Michael Pinnegar
+ *
+ */
 public class Routine {
 	
-	MainProgram main;
-	ArrayList<Subroutine> subroutines = new ArrayList<Subroutine>();
+	/**
+	 * The single MAIN{} program 
+	 */
+	private MainProgram main;
+	/**
+	 * Each SUBROUTINE(x,y,z){} is stored in this list. 
+	 */
+	private ArrayList<Subroutine> subroutines = new ArrayList<Subroutine>();
 	
-	
+	/**
+	 * Adds the VMC representation of this entire program to the compiled code. 
+	 * 
+	 * @return finished compiled code in VMC format
+	 */
 	TextFile compile()
 	{
 		TextFile flag = new TextFile();
@@ -28,6 +43,10 @@ public class Routine {
 		return flag;
 	}
 	
+	/**
+	 * Prints out the entire program after it has been built from the source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	void print()
 	{
 		for(Subroutine element : subroutines)
@@ -45,6 +64,10 @@ public class Routine {
 		}
 	}
 	
+	/**
+	 * Class constructor that builds a Robot Wars program from the source code found in body.
+	 * @param body source code
+	 */
 	public Routine(TextFile body)
 	{
 		boolean stillProcessingSubroutines = true;

@@ -2,8 +2,8 @@ package game;
 
 import lexer.TextFile;
 import lexer.Token.TokenType;
-
 import java.util.*;
+
 public class DecisionEngine {
 
 	private int MAXEXECUTIONCYCLE = 1000;
@@ -33,6 +33,7 @@ public class DecisionEngine {
 
 			if(temp.equals("SUBROUTINE"))
 			{
+				st.nextToken(); //Clear out space
 				temp = st.nextToken();
 
 				if (subroutineLocation.containsKey(temp))
@@ -51,14 +52,21 @@ public class DecisionEngine {
 		}
 	}
 
-	public GameCommand getNextGameCommand()
+	public GameOperation getNextGameCommand()
 	{
 		int counter = 0;
 		boolean haveGameCommand = false;
-		GameCommand extractedGameCommand = null;
+		GameOperation extractedGameCommand = null;
 
 		while(!haveGameCommand && counter < MAXEXECUTIONCYCLE)
 		{
+			if(executionCode.isEndOfFile())
+			{
+				System.out.println("RUNTIME ERROR: Program halted!");
+				extractedGameCommand = new GameOperation("halt");
+				return extractedGameCommand;
+			}
+			
 			String current = executionCode.getLine();
 			StringTokenizer st = new StringTokenizer(current," (),",true);
 			String token = st.nextToken();
@@ -117,7 +125,6 @@ public class DecisionEngine {
 					}
 
 					current = executionCode.getLine();
-
 					if(current.equals("RIGHTEXPRESSION"))
 					{
 						haveNotFinishedLeftEXP = false;
@@ -249,7 +256,7 @@ public class DecisionEngine {
 				st.nextToken(); //Gets a space
 				token = st.nextToken(); //Gets the variable to return 
 				retValue = symbolTable.get(token); //Put the value from the variable into the return register
-				executionCode.setRow(returnLocation); //Return to the location where execution is suppose to begin
+				executionCode.setRow(returnLocation-1); //Return to the location where execution is suppose to begin
 				symbolTable.put(returnValueIntoThisVar, retValue); //Put the value that was calculated during the subroutine into the VAR <variable> following the CALL command
 			}
 			else if(token.startsWith("#"))
@@ -420,7 +427,7 @@ public class DecisionEngine {
 			}
 			else if(TokenType.matchesToken(TokenType.GAMEORDER, token))
 			{
-				extractedGameCommand = new GameCommand(token);
+				extractedGameCommand = new GameOperation(token);
 				boolean firstTimeThrough = true;
 				token = st.nextToken(); // (
 				token = st.nextToken(); // either ) or a parameter
@@ -443,10 +450,11 @@ public class DecisionEngine {
 			}
 			else if(token.equals("JUMP"))
 			{
-				String jumpAmount = st.nextToken();
+				
+				String jumpAmount = st.nextToken(); // Space
+				jumpAmount = st.nextToken(); //
 				executionCode.addToRow(Integer.parseInt(jumpAmount)- 1);
 			}
-
 			counter++;
 		}
 

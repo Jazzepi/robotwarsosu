@@ -4,10 +4,26 @@ import java.util.ArrayList;
 
 import lexer.Token.TokenType;
 
+/**
+ *  An ordered list of parameters. Used in the larger context of {@link GameCommand}s and {@link GameFunctions}s
+ *  
+ *  EXAMPLE: (x,y,z) would have the parameters x y and z stored.
+ * @author Michael Pinnegar
+ *
+ */
 public class Parameters {
-
-	ArrayList<String> parameterList = new ArrayList<String>();
 	
+	/**
+	 * List of parameters stored.
+	 */
+	private ArrayList<String> parameterList = new ArrayList<String>();
+	
+	/**
+	 * Returns a string representation of all the parameters for a given function call separated by ','
+	 * 
+	 * @param flag source code
+	 * @return String representation of parameters separated by ,s
+	 */
 	public String compile(TextFile flag) {
 		String builder = new String();
 		
@@ -24,6 +40,10 @@ public class Parameters {
 		return builder;
 	}
 	
+	/**
+	 * Prints out the elements of this parameter list as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	public void print() {
 		if(parameterList.size() > 0)
 		{
@@ -36,6 +56,10 @@ public class Parameters {
 		}
 	}
 	
+	/**
+	 * This constructor builds a parameters list from the source code found in body.
+	 * @param body source code
+	 */
 	public Parameters(TextFile body) {
 		
 		Token current = body.getNonWSToken(true);

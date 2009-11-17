@@ -15,7 +15,7 @@ public class Token {
 	private static String[] CONDITION1 = {"!=", "==", "<", ">", "<=", ">="};
 	private static String[] KEYWORD1 = {"IF", "IFELSE","ELSE", "VAR", "SUBROUTINE", "RETURN", "MAIN", "WHILE", "CALL"};
 	private static String[] GAMEFUNCTION1 = {"isEnemyInRange","isHealth","directionOfClosestEnemy"};
-	private static String[] GAMEORDER1 = {"move","turn","skip","selfDestruct","attackWithWeapon","useItem"};
+	private static String[] GAMEORDER1 = {"move","turn","skip","selfDestruct","attackWithWeapon","useItem","halt"};
 
 	private TokenType type;
 	private String text;

@@ -1,0 +1,46 @@
+SUBROUTINE firstRoutineFIRSTMODSECOND(firstParam,secondParam)
+{
+	VAR retVal1 =  firstParam % secondParam;
+	RETURN retVal1;
+}
+
+SUBROUTINE secondRoutineDOUBLE(firstParam1)
+{
+	VAR retVal2 =  firstParam1 + firstParam1;
+	RETURN retVal2;
+}
+
+SUBROUTINE thirdRoutine(firstParam2,secondParam2,thirdParam3)
+{
+	VAR retVal3 = firstParam2/secondParam2/thirdParam3;
+	RETURN retVal3;
+}
+
+MAIN
+{
+	VAR x = 7;
+	VAR y = 2;
+
+	VAR z = CALL firstRoutineFIRSTMODSECOND(x,y);
+
+	IF(z==1)
+	{
+		selfDestruct(success1);
+	}
+	
+	VAR x = 15;
+	VAR y = 10;
+	
+	VAR x = CALL firstRoutineFIRSTMODSECOND(x,y);
+	VAR z = CALL secondRoutineDOUBLE(x);
+	IF(z==10)
+	{
+		selfDestruct(success2);
+	}
+
+	VAR z = CALL firstRoutineFIRSTMODSECOND(x,y);
+	IF(z==2)
+	{
+		selfDestruct(success3);
+	}	
+}

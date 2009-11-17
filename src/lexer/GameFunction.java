@@ -1,11 +1,31 @@
 package lexer;
 
+/**
+ * GameCommand is a class that holds the Game Function itself, as defined by {@link Token}
+ * and the parameters to that game function call.
+ *
+ * EXAMPLE: isNextEnemy(z)
+ * isNextEnemy is the game function
+ * z is the first and only parameter 
+ * 
+ * @author Michael Pinnegar
+ *
+ */
 public class GameFunction {
 
-	
-	String gameFunctionID;
+	/**
+	 * The name of the game function to be called.
+	 */
+	private String gameFunctionID;
+	/**
+	 * List of parameters that belong to the game function.
+	 */
 	private Parameters parameters;
 
+	/**
+	 * Adds the VMC representation of this game function call to the compiled code.
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 		String builder = new String();
 		
@@ -31,6 +51,10 @@ public class GameFunction {
 		flag.input(builder);
 	}
 	
+	/**
+	 * Prints out the elements of this game function as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	void print()
 	{
 		if(gameFunctionID != null)
@@ -52,6 +76,14 @@ public class GameFunction {
 		}
 	}
 	
+	/**
+	 * Class constructor that builds a GameFunction object from the source code found in body, and the name of the Game Function found in gameFunctionAlreadyPulledOff.
+	 * EXAMPLE: isNextEnemy(x,z)
+	 * gameOrderAlreadyPulledOff = isNextEnemy
+	 * 
+	 * @param body source code
+	 * @param gameFunctionAlreadyPulledOff name of function
+	 */
 	public GameFunction(TextFile body, Token gameFunctionAlreadyPulledOff) {
 		
 		gameFunctionID = gameFunctionAlreadyPulledOff.getText();

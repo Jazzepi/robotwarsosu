@@ -4,11 +4,11 @@ import lexer.Token.TokenType;
 
 public class VariableAssignment implements Statement {
 
-	String leftSideVar;
-	Expression expression;
-	String rightSidedFunctionCallID;
-	GameFunction gameFunction;
-	Parameters rightSidedFunctionCallParameters;
+	private String leftSideVar;
+	private Expression expression;
+	private String rightSidedFunctionCallID;
+	private GameFunction gameFunction;
+	private Parameters rightSidedFunctionCallParameters;
 	
 	@Override
 	public void compile(TextFile flag) {

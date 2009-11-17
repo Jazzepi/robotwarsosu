@@ -4,10 +4,22 @@ import java.util.ArrayList;
 
 import lexer.Token.TokenType;
 
+/**
+ * A block consisting of zero or more statements.
+ * @author Michael Pinnegar
+ *
+ */
 public class Block {
 
-	ArrayList<Statement> block = new ArrayList<Statement>();
+	/**
+	 * An ordered collection of statements in a block.  
+	 */
+	private ArrayList<Statement> block = new ArrayList<Statement>();
 
+	/**
+	 * Adds the VMC representation of this block, statement by statement, to the compiled code.
+	 * @param flag unfinished compiled code
+	 */
 	public void compile(TextFile flag) {
 		
 		for(Statement element : block)
@@ -17,6 +29,10 @@ public class Block {
 		
 	}
 	
+	/**
+	 * Prints out the elements of a block as they were taken in as source code.
+	 * Useful for verifying that the intermediate tree structure has been built correctly.  
+	 */
 	void print()
 	{
 		for(Statement element : block)
@@ -25,6 +41,10 @@ public class Block {
 		}
 	}
 	
+	/**
+	 * Class constructor that builds itself from the source code found in body.
+	 * @param body source code
+	 */
 	Block(TextFile body)
 	{
 		Token current = body.getNonWSToken(true);
@@ -88,16 +108,14 @@ public class Block {
 			else if(current.getType() == TokenType.GAMEORDER)
 			{
 				current = body.getNonWSToken(false);
+				
+				GameCommand gameCommandStatementToBeAdded = new GameCommand(body, current);
+				block.add(gameCommandStatementToBeAdded);
 				current = body.getNonWSToken(false);
 				
-				if (current.getText().equals("("))
+				if(!current.getText().equals(";"))
 				{
-					GameCommand gameCommandStatementToBeAdded = new GameCommand(body, current);
-					block.add(gameCommandStatementToBeAdded);
-				}
-				else
-				{
-					System.out.println("ERROR: ( expected after GAMEORDER on line" + body.getReport() + ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
+					System.out.println("ERROR: ; symbol expected after GAMEORDER while parsing GAMEORDER on line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");
 				}
 			}
 			else
