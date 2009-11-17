@@ -1,8 +1,9 @@
 package game;
 
-import lexer.TextFile;
-import lexer.Token.TokenType;
 import java.util.*;
+
+import compiler.TextFile;
+import compiler.Token.TokenType;
 
 /**
  * A decision engine navigates through the source code of a Robot Wars script that has been compiled into VMC.
