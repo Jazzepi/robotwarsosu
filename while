@@ -1,5 +1,7 @@
 MAIN
 {
+	VAR x = 5;
+	VAR a = 3;
 	WHILE(x>a)
 	{
 		WHILE(x<a)
@@ -8,11 +10,10 @@ MAIN
 			{
 				WHILE(1==3)
 				{
-					
+					VAR neverStop = 0;
+					selfDestruct(neverStop);	
 				}
 			}
 		}
 	}
-
-
 }

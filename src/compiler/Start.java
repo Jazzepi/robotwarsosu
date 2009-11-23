@@ -1,9 +1,7 @@
 package compiler;
 
-import game.DecisionEngine;
-import game.GameOperation;
-
 import java.io.*;
+import java.util.ArrayList;
 
 public class Start {
 
@@ -12,63 +10,87 @@ public class Start {
 	 */
 	public static void main(String[] args) {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		TextFile sFile = null;
+		ArrayList<TextFile> uncompiledHolster = new ArrayList<TextFile>();
+		ArrayList<Routine> transitionHolster = new ArrayList<Routine>();
+		ArrayList<TextFile> compiledHolster = new ArrayList<TextFile>();
 
-	
-		try {
-			sFile = new TextFile(bufferedReader.readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for(String element: args)
+		{
+			try {
+				uncompiledHolster.add(new TextFile(element));
+			} catch (IOException e) {
+				System.out.println("I/O error " + e + " prevented sourcecode file " + element + " from being compiled.");
+			}
+		}
+
+		for(TextFile element: uncompiledHolster)
+		{
+			element.stripCommentsAndWhiteSpace();
+			element.reset();
+			transitionHolster.add(new Routine(element));
 		}
 		
-//		sFile.display();
-		sFile.stripCommentsAndWhiteSpace();
-//		sFile.display();
-		sFile.reset();
-		
-		Routine program = new Routine(sFile);
-		//program.print();
-		TextFile compilation = program.compile();
-		compilation.display();
-		
-		DecisionEngine test = new DecisionEngine(compilation);
-		System.out.println("*****************");
-		
-		for(int i = 0; i<20; i++)
+		int i = 0;
+		for(Routine element: transitionHolster)
 		{
-			GameOperation tempCommand = test.getNextGameCommand();
-			System.out.println(tempCommand.getName());
-			String[] temp = tempCommand.getParameterList();
-			for(String element : temp)
+			System.out.println();
+			System.out.println("Compiling file " + args[i]);
+			System.out.println();
+			System.out.println("***************************");
+			System.out.println();
+			compiledHolster.add(element.compile());
+			i++;
+		}
+		
+
+		
+		System.out.print("Would you like to write the compiled files? [Y/N]");
+		String input = "";
+		try {
+			input = bufferedReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		i=0;
+		if(input.startsWith("Yes") || input.startsWith("yes") || input.startsWith("y") || input.startsWith("Y"))
+		{
+			for(TextFile element: compiledHolster)
 			{
-				System.out.println(element);
+				System.out.println();
+				System.out.println("Writing compiled VMC for file " + args[i]);
+				System.out.println();
+				System.out.println("***************************");
+				System.out.println();
+				try {
+					element.write(args[i] + ".o");
+				} catch (IOException e) {
+					System.out.println("Failed to write VMC for file "  + args[i]);
+				}
+				i++;
 			}
 		}
 		
+		System.out.print("Would you like to display the compiled files? [Y/N]");
+		input = "";
+		try {
+			input = bufferedReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		
-//		while(!sFile.isEndOfFile())
-//		{
-//			Token temp = null;
-//			for(int i = 0; i < 2;i++)
-//			{
-//				temp = sFile.getNonWSToken(true);
-//				System.out.print(temp.getText() +" IS A:");
-//				System.out.println(temp.getType());
-//			}
-//			
-//			temp = sFile.getNonWSToken(false);
-//			System.out.print(temp.getText() +" IS A:");
-//			System.out.println(temp.getType());
-//		}
-//		
-//		for(int i = 0; i<50;i++)
-//		{
-//			Token temp = sFile.getNonWSToken(true);
-//		}
-			
-
+		i=0;
+		if(input.startsWith("Yes") || input.startsWith("yes") || input.startsWith("y") || input.startsWith("Y"))
+		{
+			for(TextFile element: compiledHolster)
+			{
+				System.out.println();
+				System.out.println("Displaying compiled VMC for file " + args[i]);
+				System.out.println();
+				System.out.println("***************************");
+				System.out.println();
+				element.display();
+				i++;
+			}
+		}
 	}
-
 }

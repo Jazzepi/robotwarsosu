@@ -63,7 +63,7 @@ public class Block {
 				}
 				else
 				{
-					System.out.println("ERROR: ( symbol expected after after IF while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
+					System.out.println("ERROR: ( symbol expected after IF while parsing line "+ body.getReport()+ ". Token " + current.getText() + " of type " + current.getType() + " found instead.");					
 				}
 			}
 			else if(current.getText().equals("IFELSE"))
