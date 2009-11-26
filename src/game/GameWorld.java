@@ -141,7 +141,7 @@ public class GameWorld {
 	/**
 	 * Creates a default game world
 	 */
-	GameWorld()
+	public GameWorld()
 	{
 		xSize = DEFAULTBOARDSIZEX;
 		ySize = DEFAULTBOARDSIZEY;

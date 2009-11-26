@@ -105,7 +105,7 @@ public class DecisionEngine {
 	 * Sets up a reference to the gameworld that this decision is running in.
 	 * @param reference Pointer to the gameworld this decision engine is running in.
 	 */
-	void getReferenceToGameworld(GameWorld reference)
+	public void getReferenceToGameworld(GameWorld reference)
 	{
 		executionEnviroment = reference;
 	}
@@ -530,7 +530,11 @@ public class DecisionEngine {
 			}
 			counter++;
 		}
-
+		
+		if(counter >= MAXEXECUTIONCYCLE)
+		{
+			extractedGameCommand = new GameOperation("halt");
+		}
 		return extractedGameCommand;
 	}
 }
